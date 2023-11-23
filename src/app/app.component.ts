@@ -6,13 +6,9 @@ import {Router} from "@angular/router";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'frontendBBDD';
 
-  constructor( private nav:Router) {
-  }
-
-  ngOnInit(): void {
-    this.nav.navigate(['']);
+  constructor( private router:Router) {
   }
 }

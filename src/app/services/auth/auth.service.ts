@@ -6,7 +6,7 @@ import {TokenModel} from "../../models/responses/TokenModel";
   providedIn: 'root'
 })
 export class AuthService {
-  API_ENDPOINT:string = "endpoint";
+  API_ENDPOINT:string = "https://www.backbasesdatos.duckdns.org/api/";
   constructor(private http: HttpClient) { }
   /*
   * el email default => nachopp98@gmail.com
