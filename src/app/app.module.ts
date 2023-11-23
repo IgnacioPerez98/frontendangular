@@ -8,6 +8,7 @@ import { LoggedhubComponent } from './components/loggedhub/loggedhub.component';
 import {FormsModule} from "@angular/forms";
 import {RouterModule, Routes} from "@angular/router";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 const routes: Routes = [
   {path:'', redirectTo:'/login', pathMatch: 'full'},
@@ -27,6 +28,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(routes),
     HttpClientModule

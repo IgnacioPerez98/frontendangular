@@ -3,7 +3,6 @@ import {AuthService} from "../../services/auth/auth.service";
 import {ValidateService} from "../../services/validate/validate.service";
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
