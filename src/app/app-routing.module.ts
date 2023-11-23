@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {LoginComponent} from "./components/login/login.component";
 import {LoggedhubComponent} from "./components/loggedhub/loggedhub.component";
+import {RegisterComponent} from "./components/register/register.component";
 
 const routes: Routes = [
   {path:'', component:LoginComponent},
   {path:'login', component:LoginComponent},
-  {path:'hub', component:LoggedhubComponent, canActivate:[]}
+  {path:'register', component:RegisterComponent},
+  {path:'hub', component:LoggedhubComponent},
+  {path:'**', component:LoginComponent},//Cuando hay error
 
 ];
 

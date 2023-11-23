@@ -1,0 +1,20 @@
+.register-container {
+  min-width: 400px;
+  max-width: 700px;
+  margin: 50px auto;
+  border: 1px solid #ccc;
+  padding: 30px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  justify-content: space-between;
+  /* bordes redondeados */
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+}
