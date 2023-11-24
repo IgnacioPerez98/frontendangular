@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 export class LoginComponent {
   username: string = '';
   password: string = '';
-  estavalidando :boolean = true;
+  estavalidando :boolean = false;
 
   constructor(
     private auth:AuthService,
