@@ -1,12 +1,48 @@
 .register-container {
   min-width: 400px;
-  max-width: 700px;
+  width: 60vw;
+  max-width: 600px;
   margin: 50px auto;
+  backdrop-filter: blur(50px);
   border: 1px solid #ccc;
   padding: 30px;
   box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
-  justify-content: space-between;
+  overflow: auto;
+}
+.content{
+  min-height: 100vh;
+  min-width: 100vw;
+  max-height: 100vh;
+  max-width: 100vw;
+  background-image: url("/assets/ucumedicina.jpg");
+  background-size: cover;
+  object-fit: fill;
+  margin-left: auto;
+  margin-right: auto;
+  position: fixed;
+  display: flex;
+}
+
+.logo-ucu{
+  min-width: 290px;
+  width: 50vw;
+  max-width: 390px;
+}
+.ico{
+  font-size: 24px;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+}
+.btn{
+  min-width: 150px;
+  max-width: 300px;
+  width: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
 }
 
 .form-group input {
