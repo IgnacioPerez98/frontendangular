@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 export class LoginComponent {
   username: string = '';
   password: string = '';
-  estavalidando :boolean = false;
+  estavalidando :boolean = true;
 
   constructor(
     private auth:AuthService,
@@ -27,17 +27,19 @@ export class LoginComponent {
       this.estavalidando = true;
       this.auth.obtenerToken(this.username,this.password).subscribe(
         (ok)=>{
-            this.cookie.set('token',ok.token);
-            this.estavalidando= false
-            this.nav.navigate(['/hub'])
+          const {token} = ok;
+          this.cookie.set('token',token);
+          this.estavalidando= false
+          console.log(this.auth.decodeToken(token));
+          this.nav.navigate(['/hub'])
         },
         (error)=>{
           console.error("Error de login: ",error);
           alert("Usuario o contraseña incorrectos.")
           this.estavalidando= false
+          this.nav.navigate(['/login'])
         }
       )
-      this.nav.navigate(['/hub'])
     }
   }
   registrarse(){

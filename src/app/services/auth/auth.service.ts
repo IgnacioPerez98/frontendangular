@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TokenModel} from "../../models/responses/TokenModel";
+import * as jwtdecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,8 @@ export class AuthService {
       "password": `${password}`
     };
     return this.http.post<TokenModel>(this.API_ENDPOINT+ending,body,{headers:header})
+  }
+  public decodeToken(token: string): string {
+    return jwtdecode.jwtDecode(token);
   }
 }
