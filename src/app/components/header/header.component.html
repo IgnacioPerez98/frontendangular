@@ -1,0 +1,11 @@
+<div id="main" class="row row-cols-1">
+    <div class="col-12" id="header-div">
+        <h1>INICIO</h1>
+        <div id="funcionarios-div" *ngIf="isFuncionario">
+            <button class="btn btn-secondary" (click)="toggleForm('Agendarme');" >Agendarme</button>
+            <button class="btn btn-secondary" (click)="toggleForm('Carnet');" >Cargar carnet</button>
+        </div>
+        <button id="logoutBtn" class="btn btn-secondary" (click)="logOut();" >Log Out</button>
+    </div>
+
+</div>

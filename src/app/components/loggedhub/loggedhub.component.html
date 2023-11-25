@@ -1,1 +1,49 @@
-<p>loggedhub works!</p>
+<div id="main" class="row justify-content-center">
+    <div id="header" class="col-12">
+        <app-header [isFuncionario]="isFuncionario" (toggleFormEvent)="toggleForm($event)" ></app-header>
+    </div>
+    <div class="col-10" id="container" *ngIf="user!==undefined">
+        <h1 id="hello-user" >Hi {{user.nombre}}!</h1>
+
+        <div class="card" *ngIf="reservaForm">
+            <div class="card-body text-center">
+                <h5 class="card-title">Agendarme</h5>
+                <form [formGroup]="reservaFormGroup" (submit)="onSubmit('reserva');" >
+                    <div class="form-group">                      
+                        <label for="ci">Cedula de Identidad</label>
+                        <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">                       
+                    </div>
+                    <div class="form-group">                      
+                        <label for="fechaAgenda">Fecha</label>
+                        <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>                       
+                    </div>
+                    <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup.valid" >Submit</button>
+                </form>
+            </div>
+        </div>
+        <div class="card" *ngIf="carnetForm"> 
+            <div class="card-body text-center">
+                <h5 class="card-title">Cargar carnet</h5>
+                <form [formGroup]="carnetFormGroup" (submit)="onSubmit('carnet');" >
+                    <div class="form-group">
+                        <label for="ci">Cedula de Identidad</label>
+                        <input type="text" id="ci" formControlName="ci" name="ci" required>
+                    </div>
+                    <div>
+                        <label for="fecha_emision">Fecha de emision</label>
+                        <input type="file" id="fecha_emision" formControlName="fechaEmision" name="fecha_emision" required>
+                    </div>
+                    <div>
+                        <label for="fecha_vencimiento">Fecha de vencimiento</label>
+                        <input type="file" id="fecha_vencimiento" formControlName="fechaVencimiento" name="fecha_vencimiento" required>
+                    </div>
+                    <div>
+                        <label for="imagen">Imagen</label>
+                        <input type="file" id="imagen" formControlName="imagen" name="imagen" required>
+                    </div>
+                    <button class="btn-primary btn " type="submit" ></button>
+                </form>  
+            </div>
+        </div>
+    </div>
+</div>

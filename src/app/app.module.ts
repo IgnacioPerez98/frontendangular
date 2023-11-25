@@ -5,10 +5,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { LoggedhubComponent } from './components/loggedhub/loggedhub.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {RouterModule, Routes} from "@angular/router";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { HeaderComponent } from './components/header/header.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'/login', pathMatch: 'full'},
@@ -24,14 +25,16 @@ const routes: Routes = [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    LoggedhubComponent
+    LoggedhubComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [
     HttpClient
