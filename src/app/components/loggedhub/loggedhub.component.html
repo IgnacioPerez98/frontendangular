@@ -8,7 +8,7 @@
         <div class="card" *ngIf="reservaForm">
             <div class="card-body text-center">
                 <h5 class="card-title">Agendarme</h5>
-                <form [formGroup]="reservaFormGroup" (submit)="onSubmit('reserva');" >
+                <form [formGroup]="reservaFormGroup" (submit)="onSubmit('reserva');" *ngIf="periodos.length!==0" >
 
                     <div class="form-group">
                         <label for="ci">Cedula de Identidad</label>
@@ -18,7 +18,14 @@
                         <label for="fechaAgenda">Fecha</label>
                         <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>
                     </div>
-                    <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup.valid" >Submit</button>
+                    <div class="form-group">
+                        <label for="periodo">Periodo</label>
+                        <select id="periodo" formControlName="periodo" name="periodo" required>
+                            <option *ngFor="let periodo of periodos" value="{{periodo.fch_Inicio}}/{{periodo.fch_Fin}}" >{{periodo.fch_Inicio}}/{{periodo.fch_Fin}} </option>
+
+                        </select>
+                    </div>
+                    <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup" >Submit</button>
                     <button class="btn-secondary btn " (click)="toggleForm('Agendarme')">Cancel</button>
 
                 </form>
