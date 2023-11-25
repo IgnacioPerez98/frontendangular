@@ -10,6 +10,8 @@ import {end} from "@popperjs/core";
 import {PeriodosDisponibles} from "../../models/responses/PeriodosDisponibles";
 import {AuthService} from "../auth/auth.service";
 import {PeriodoEspecial} from "../../models/PeriodoEspecial";
+import { ValidateService } from '../validate/validate.service';
+import { ReservaHora } from 'src/app/models/ReservaHora';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +22,8 @@ export class DataapiService {
   constructor(
     private http:HttpClient,
     private cookie:CookieService,
-    private auth :AuthService
+    private auth :AuthService,
+    private validateService:ValidateService
   ) { }
   //***********************************************************************************
   //Funcionarios - 2 endpoints
@@ -84,7 +87,7 @@ export class DataapiService {
     const ending = `carnetsalud/fechasdisponibles/${pipe.transform(inicio, 'yyyy-MM-dd')}/${pipe.transform(final,'yyyy-MM-dd')}`;
     return this.http.get(this.API_ENDPOINT+ending, {headers:header});
   }
-  public reservarHora(turno:Agenda,inicPeriodo:Date, finPeriodo:Date){
+  public reservarHora(turno:ReservaHora,inicPeriodo:Date, finPeriodo:Date){
     const pipe = new DatePipe('en-US');
     const ending = `carnetsalud/resrvarhora/${pipe.transform(inicPeriodo, 'yyyy-MM-dd')}/${pipe.transform(finPeriodo,'yyyy-MM-dd')}`
     const header = {
@@ -95,10 +98,11 @@ export class DataapiService {
     const body = {
       "numero": turno.numero,
       "ci": `${turno.ci}`,
-      "fecha_Agenda": `${turno.getFormattedDate()}`,
+      "fecha_Agenda": `${this.validateService.getFormattedDate(turno.fecha_Agenda)}`,
       "estaReservado": turno.estaReservado
     }
-    return this.http.post(this.API_ENDPOINT+ending, body,{headers:header});
+    console.log("body",body);
+    return this.http.post(this.API_ENDPOINT+ending, body);
   }
 
 
