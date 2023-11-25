@@ -9,19 +9,19 @@
             <div class="card-body text-center">
                 <h5 class="card-title">Agendarme</h5>
                 <form [formGroup]="reservaFormGroup" (submit)="onSubmit('reserva');" >
-                    <div class="form-group">                      
+                    <div class="form-group">
                         <label for="ci">Cedula de Identidad</label>
-                        <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">                       
+                        <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">
                     </div>
-                    <div class="form-group">                      
+                    <div class="form-group">
                         <label for="fechaAgenda">Fecha</label>
-                        <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>                       
+                        <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>
                     </div>
                     <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup.valid" >Submit</button>
                 </form>
             </div>
         </div>
-        <div class="card" *ngIf="carnetForm"> 
+        <div class="card" *ngIf="carnetForm">
             <div class="card-body text-center">
                 <h5 class="card-title">Cargar carnet</h5>
                 <form [formGroup]="carnetFormGroup" (submit)="onSubmit('carnet');" >
@@ -42,7 +42,7 @@
                         <input type="file" id="imagen" formControlName="imagen" name="imagen" required>
                     </div>
                     <button class="btn-primary btn " type="submit" ></button>
-                </form>  
+                </form>
             </div>
         </div>
     </div>

@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TokenModel} from "../../models/responses/TokenModel";
 import * as jwtdecode from 'jwt-decode';
+import {Error} from "../../models/responses/Error";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  API_ENDPOINT:string = "https://www.backbasesdatos.duckdns.org/api/";
+  API_ENDPOINT:string = "http://localhost:8080/api/";
   constructor(private http: HttpClient) { }
   /*
   * el email default => nachopp98@gmail.com
