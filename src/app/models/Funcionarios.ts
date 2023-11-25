@@ -1,5 +1,19 @@
 import {DatePipe} from "@angular/common";
-
+/*
+Example Value
+Schema
+{
+  "ci": "string",
+  "nombre": "string",
+  "apellido": "string",
+  "fch_Nac": "2023-11-25T19:58:54.583Z",
+  "direccion": "string",
+  "telefono": "string",
+  "email": "string",
+  "password": "string",
+  "esAdmin": true
+}
+*/
 export class Funcionarios{
   ci:string;
   nombre:string;
@@ -9,6 +23,7 @@ export class Funcionarios{
   telefono:string;
   email:string;
   pasword:string;
+  esAdmin:boolean;
   constructor(
     ced:string,
     name:string,
@@ -17,7 +32,8 @@ export class Funcionarios{
     adress:string,
     phone:string,
     email:string,
-    password:string) {
+    password:string,
+    esAdmin:boolean) {
     this.ci = ced;
     this.nombre = name;
     this.apellido = surname;
@@ -25,7 +41,8 @@ export class Funcionarios{
     this.direccion =adress;
     this.telefono = phone;
     this.email = email;
-    this.pasword = password; // Encriptar.
+    this.pasword = password;
+    this.esAdmin = esAdmin;
   }
   public getFormattedDate(){
     let fecha = new DatePipe('en-US')

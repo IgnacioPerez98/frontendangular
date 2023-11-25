@@ -5,19 +5,26 @@ import {SHA512Service} from "../hashing/sha512.service";
 import {HttpClient} from "@angular/common/http";
 import {DatePipe} from "@angular/common";
 import {Agenda} from "../../models/responses/Agenda";
+import {UpdateFuncionario} from "../../models/requests/UpdateFuncionario";
+import {end} from "@popperjs/core";
+import {PeriodosDisponibles} from "../../models/responses/PeriodosDisponibles";
+import {AuthService} from "../auth/auth.service";
+import {PeriodoEspecial} from "../../models/PeriodoEspecial";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataapiService {
 
-  API_ENDPOINT:string = "https://www.backbasesdatos.duckdns.org/api/";
+  API_ENDPOINT:string = "http://localhost:8080/api/";
   constructor(
     private http:HttpClient,
     private cookie:CookieService,
-    private hash :SHA512Service
+    private auth :AuthService
   ) { }
-
+  //***********************************************************************************
+  //Funcionarios - 2 endpoints
+  //***********************************************************************************
   public crearFuncionarios(func:Funcionarios){
     const ending = 'funcionarios/funcionario'
     const header = {
@@ -25,7 +32,6 @@ export class DataapiService {
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    const hashedPass =  this.hash.EncryptSHA512(func.pasword);
     const body = {
       "ci": `${func.ci}`,
       "nombre": `${func.nombre}`,
@@ -34,10 +40,40 @@ export class DataapiService {
       "direccion": `${func.direccion}`,
       "telefono": `${func.telefono}`,
       "email": `${func.email}`,
-      "password": `${hashedPass}` //lo mando hasheado
+      "password": `${func.pasword}` //lo mando hasheado
     }
     return this.http.post<any>(this.API_ENDPOINT+ending, body,{headers:header});
   }
+  public  actualizarDatosFuncionarioActual(func:UpdateFuncionario){
+    const ending= 'funcionarios/funcionario';
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    const body = {
+      "direccion": `${func.direccion}`,
+      "telefono": `${func.telefono}`,
+      "email": `${func.email}`,
+      "password": `${func.password}`
+    }
+    return this.http.patch(this.API_ENDPOINT+ending,body,{headers:header});
+  }
+
+
+  //***********************************************************************************
+  //Clinica UCU - 3 endpoints
+  //***********************************************************************************
+  public getPeriodosDisponibles(){
+    const ending:string = 'clinica/periodos';
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    return this.http.get<PeriodosDisponibles[]>(this.API_ENDPOINT+ending,{headers:header});
+  }
+
   public  getFechasDisponibles(inicio :Date, final:Date){
     const pipe = new DatePipe('en-US');
     const header = {
@@ -65,4 +101,43 @@ export class DataapiService {
     return this.http.post(this.API_ENDPOINT+ending, body,{headers:header});
   }
 
+
+  //***********************************************************************************
+  //Admin UCU - 2 endpoints
+  //***********************************************************************************
+
+  public abrirPeriodoEspecial(periodo:PeriodoEspecial){
+      if(!this.esAdmin()) return;
+      const ending:string = 'ucuadmin/periodoespecial';
+      const header = {
+        'accept': '*/*',
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${this.cookie.get('token')}`
+      }
+      const pipe = new DatePipe('en-US');
+      const body = {
+        "anio": periodo.anio,
+        "semestre": periodo.semestre,
+        "fch_Inicio" : pipe.transform(periodo.fch_Inicio,'yyyy-MM-ddTHH:mm:ss.SSSZ') ,
+        "fch_Fin": pipe.transform(periodo.fch_Fin,'yyyy-MM-ddTHH:mm:ss.SSSZ')
+      }
+      return this.http.post(this.API_ENDPOINT+ending, body,{headers:header})
+  }
+
+  public obtenerListaFuncionariosDesactualizados(){
+    if(!this.esAdmin()) return;
+    const ending:string = 'ucuadmin/funcionariosdesactualizado';
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    return this.http.get(this.API_ENDPOINT+ending, {headers:header});
+  }
+
+  private esAdmin():boolean{
+    const user: any  =this.auth.decodeToken(this.cookie.get('token'));
+    if(user.rol === 'admin') return true;
+    return false;
+  }
 }
