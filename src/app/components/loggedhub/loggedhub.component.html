@@ -9,11 +9,14 @@
             <div class="card-body text-center">
                 <h5 class="card-title">Agendarme</h5>
                 <form [formGroup]="reservaFormGroup" (submit)="onSubmit('reserva');" >
-                    <div class="form-gp">                      
-                        <input type="text" id="ci" placeholder="Cedula" formControlName="ci" name="ci" required minlength="4" required="">                       
+
+                    <div class="form-group">
+                        <label for="ci">Cedula de Identidad</label>
+                        <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">
                     </div>
-                    <div class="form-gp">                      
-                        <input type="text" id="fechaAgenda" placeholder="Fecha" formControlName="fechaAgenda" name="fechaAgenda" required>                       
+                    <div class="form-group">
+                        <label for="fechaAgenda">Fecha</label>
+                        <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>
                     </div>
                     <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup.valid" >Submit</button>
                     <button class="btn-secondary btn " (click)="toggleForm('Agendarme')">Cancel</button>
@@ -21,7 +24,7 @@
                 </form>
             </div>
         </div>
-        <div class="card" *ngIf="carnetForm"> 
+        <div class="card" *ngIf="carnetForm">
             <div class="card-body text-center">
                 <h5 class="card-title">Cargar carnet</h5>
                 <form [formGroup]="carnetFormGroup" (submit)="onSubmit('carnet');" >

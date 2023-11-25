@@ -14,7 +14,7 @@ import {DatePipe} from "@angular/common";
 export class RegisterComponent {
   registrando : boolean = false;
   hoy = new Date();
-  func = new Funcionarios("","","",this.hoy,"","","","")
+  func = new Funcionarios("","","",this.hoy,"","","","",false)
 
   constructor(
     private auth:AuthService,
