@@ -53,9 +53,11 @@ export class LoggedhubComponent implements OnInit {
   toggleForm(value: string) {
     switch (value) {
       case 'Agendarme':
+        this.carnetForm = false;
         this.reservaForm = !this.reservaForm;
         break;
       case 'Carnet':
+        this.reservaForm = false;
         this.carnetForm = !this.carnetForm;
         break;
     }
