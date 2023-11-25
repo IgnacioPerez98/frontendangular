@@ -9,6 +9,7 @@
             <div class="card-body text-center">
                 <h5 class="card-title">Agendarme</h5>
                 <form [formGroup]="reservaFormGroup" (submit)="onSubmit('reserva');" >
+
                     <div class="form-group">
                         <label for="ci">Cedula de Identidad</label>
                         <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">
@@ -18,6 +19,8 @@
                         <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>
                     </div>
                     <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup.valid" >Submit</button>
+                    <button class="btn-secondary btn " (click)="toggleForm('Agendarme')">Cancel</button>
+
                 </form>
             </div>
         </div>
@@ -25,24 +28,25 @@
             <div class="card-body text-center">
                 <h5 class="card-title">Cargar carnet</h5>
                 <form [formGroup]="carnetFormGroup" (submit)="onSubmit('carnet');" >
-                    <div class="form-group">
-                        <label for="ci">Cedula de Identidad</label>
-                        <input type="text" id="ci" formControlName="ci" name="ci" required>
+                    <div class="form-gp">
+
+                        <input type="text" id="ci" placeholder="Cedula" formControlName="ci" name="ci" required>
                     </div>
-                    <div>
-                        <label for="fecha_emision">Fecha de emision</label>
-                        <input type="file" id="fecha_emision" formControlName="fechaEmision" name="fecha_emision" required>
+                    <div class="form-gp">
+
+                        <input type="text" id="fecha_emision" placeholder="Fecha de emision" formControlName="fechaEmision" name="fecha_emision" required>
                     </div>
-                    <div>
-                        <label for="fecha_vencimiento">Fecha de vencimiento</label>
-                        <input type="file" id="fecha_vencimiento" formControlName="fechaVencimiento" name="fecha_vencimiento" required>
+                    <div class="form-gp">
+                        <input type="text" id="fecha_vencimiento" placeholder="Fecha de vencimiento" formControlName="fechaVencimiento" name="fecha_vencimiento" required>
                     </div>
-                    <div>
-                        <label for="imagen">Imagen</label>
+                    <div class="form-gp">
+                        <label for="imagen" style="margin-right: 1vw;" >Imagen:</label>
                         <input type="file" id="imagen" formControlName="imagen" name="imagen" required>
                     </div>
-                    <button class="btn-primary btn " type="submit" ></button>
-                </form>
+                    <button class="btn-primary btn " type="submit" >Submit</button>
+                    <button class="btn-secondary btn " (click)="toggleForm('Carnet')" >Cancel</button>
+
+                </form>  
             </div>
         </div>
     </div>

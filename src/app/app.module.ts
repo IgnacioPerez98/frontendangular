@@ -10,12 +10,13 @@ import {RouterModule, Routes} from "@angular/router";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HeaderComponent } from './components/header/header.component';
+import {authGuard} from "./services/routeguard/auth.guard";
 
 const routes: Routes = [
   {path:'', redirectTo:'/login', pathMatch: 'full'},
   {path:'login', component:LoginComponent},
   {path:'register', component:RegisterComponent},
-  {path:'hub', component:LoggedhubComponent},
+  {path:'hub', component:LoggedhubComponent,canActivate: [authGuard]},
   {path:'**', redirectTo:'/login', pathMatch: 'full'},//Cuando hay error
 
 ];
