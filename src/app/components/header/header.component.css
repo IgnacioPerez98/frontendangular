@@ -1,0 +1,21 @@
+#header-div{
+    display: flex;
+    gap: 1vw;
+    padding: 1vw 0 1vw 2vw;
+    align-items: center;
+}
+button {
+    height: fit-content;
+    width: fit-content;
+    border-radius: 2px;
+}
+
+button:hover{
+    border-radius: 10px ;
+}
+#logoutBtn{
+    position: fixed;
+    right: 1vw;
+}
+
+

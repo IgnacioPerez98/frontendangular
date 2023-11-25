@@ -1,0 +1,19 @@
+#hello-user{
+    padding-top: 2vw;
+    margin-bottom: 4vw;
+    text-align: center;
+}
+.form-div{
+    display: flex;
+    justify-content: center;
+}
+
+.card{
+    width: fit-content;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
