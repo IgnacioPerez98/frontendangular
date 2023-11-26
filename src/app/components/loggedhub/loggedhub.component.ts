@@ -22,7 +22,6 @@ export class LoggedhubComponent implements OnInit {
 
   ngOnInit() {
     this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
-    console.log("user",this.user);
     this.isFuncionario= this.getIsFuncionario();
     //this.obtenerPeriodos();
   }

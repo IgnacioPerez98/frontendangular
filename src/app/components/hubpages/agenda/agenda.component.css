@@ -101,6 +101,7 @@ button {
   cursor: pointer;
 }
 .card{
+  min-width: 600px;
   max-width: 75vw;
   min-height: 70vh;
   max-height: 75vh;
