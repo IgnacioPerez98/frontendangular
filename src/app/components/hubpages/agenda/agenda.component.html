@@ -1,78 +1,78 @@
-
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="mb-0">Reservar agenda</h4>
-      </div>
-      <div class="card-body">
-        <div class="step-container mb-4">
-          <div class="step col" [class.active]="currentStep === 1">
-            Seleccionar periodo
-          </div>
-          <div class="step col" [class.active]="currentStep === 2">
-            Seleccionar dia
-          </div>
-          <div class="step col" [class.active]="currentStep === 3">
-            Seleccionar turno
-          </div>
-          <div class="step col" [class.active]="currentStep === 4">
-            Finalizar
-          </div>
+<div class="fondo">
+    <div class="row justify-content-center">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">Reservar agenda</h4>
         </div>
+        <div class="card-body">
+          <div class="step-container mb-4">
+            <div class="step col" [class.active]="currentStep === 1">
+              Seleccionar periodo
+            </div>
+            <div class="step col" [class.active]="currentStep === 2">
+              Seleccionar dia
+            </div>
+            <div class="step col" [class.active]="currentStep === 3">
+              Seleccionar turno
+            </div>
+            <div class="step col" [class.active]="currentStep === 4">
+              Finalizar
+            </div>
+          </div>
 
-        <div class="step-content">
-          <!-- Content for each step goes here -->
-          <ng-container *ngIf="currentStep === 1">
-            <div class="card" *ngIf="reservaForm">
-              <div class="card-body text-center">
-                <h5 class="card-title">Agendarme</h5>
-                <form [formGroup]="reservaFormGroup" (submit)="onSubmit();" *ngIf="periodos.length!==0" >
 
+          <form [formGroup]="reservaFormGroup" (submit)="onSubmit();" *ngIf="periodos.length!==0" >
+
+            <div class="step-content">
+              <ng-container *ngIf="currentStep === 1">
+                <div class="stepper-content-hold">
+                  <div class="form-group">
+                    <label for="periodo">Periodo</label>
+                    <select id="periodo" formControlName="periodo" name="periodo" required>
+                      <option *ngFor="let periodo of this.periodos" value="{{periodo.fch_Inicio}}/{{periodo.fch_Fin}}" >
+                        {{ periodo.getFechaLinda(1)}}/{{periodo.getFechaLinda(2)}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="currentStep === 2">
+                <div class="stepper-content-hold">
                   <div class="form-group">
                     <label for="ci">Cedula de Identidad</label>
                     <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">
                   </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="currentStep === 3">
+                <div class="stepper-content-hold">
                   <div class="form-group">
                     <label for="fechaAgenda">Fecha</label>
                     <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>
                   </div>
-                  <div class="form-group">
-                    <label for="periodo">Periodo</label>
-                    <select id="periodo" formControlName="periodo" name="periodo" required>
-                      <option *ngFor="let periodo of periodos" value="{{periodo.fch_Inicio}}/{{periodo.fch_Fin}}" >{{periodo.fch_Inicio}}/{{periodo.fch_Fin}} </option>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="currentStep === 4">
+                <h5>Step 3 Content</h5>
+                <!-- Add your step 3 form fields here -->
 
-                    </select>
-                  </div>
-                  <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup" >Submit</button>
-                </form>
-              </div>
+
+                <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup" >Submit</button>
+              </ng-container>
+
             </div>
-
-          </ng-container>
-
-          <ng-container *ngIf="currentStep === 2">
-            <h5>Step 2 Content</h5>
-            <!-- Add your step 2 form fields here -->
-          </ng-container>
-
-          <ng-container *ngIf="currentStep === 3">
-            <h5>Step 3 Content</h5>
-            <!-- Add your step 3 form fields here -->
-          </ng-container>
-          <ng-container *ngIf="currentStep === 4">
-            <h5>Step 3 Content</h5>
-            <!-- Add your step 3 form fields here -->
-          </ng-container>
+          </form>
         </div>
-
-        <div class="navigation-container">
-          <button class="btn btn-secondary" (click)="prevStep()" [disabled]="currentStep === 1">Previous</button>
-          <button class="btn btn-primary" (click)="nextStep()" [disabled]="currentStep === 4">Next</button>
+        <div class="card-footer">
+          <div class="navigation-container">
+            <button class="btn btn-secondary" (click)="prevStep()" [disabled]="currentStep === 1">Previous</button>
+            <button class="btn btn-primary" (click)="nextStep()" [disabled]="currentStep === 4">Next</button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </div>
 
 <!--

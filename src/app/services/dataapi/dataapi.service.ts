@@ -115,7 +115,7 @@ export class DataapiService {
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    return this.http.get<PeriodosDisponibles[]>(this.API_ENDPOINT+ending,{headers:header});
+    return this.http.get<any[]>(this.API_ENDPOINT+ending,{headers:header});
   }
 
   public  getFechasDisponibles(inicio :Date, final:Date){
