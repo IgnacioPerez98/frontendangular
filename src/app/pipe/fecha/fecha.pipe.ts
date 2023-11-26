@@ -9,6 +9,7 @@ export class FechaPipe implements PipeTransform {
     try {
       if(value === null) return "";
       let fecha = new Date(value);
+
       let d = fecha.getDate().toString().padStart(2,"0")
       let m = (fecha.getMonth()+1).toString().padStart(2,"0")
       let a = fecha.getFullYear();
@@ -18,9 +19,9 @@ export class FechaPipe implements PipeTransform {
         return `${a}-${m}-${d}`;
       }else if (tipe === TipoFecha.FechaYHora){
         let h = fecha.getHours().toString().padStart(2,"0");
-        let m = fecha.getMinutes().toString().padStart(2,"0");
+        let min = fecha.getMinutes().toString().padStart(2,"0");
         let s = fecha.getSeconds().toString().padStart(2,"0");
-        return `${a}-${m}-${d}T${h}:${m}:${s}.000Z`;
+        return `${a}-${m}-${d}T${h}:${min}:${s}.000Z`;
       }
     }catch (error){
       console.error("Error en PipeFecha: \n" ,error)

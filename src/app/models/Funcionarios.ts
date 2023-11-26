@@ -47,8 +47,6 @@ export class Funcionarios{
   }
   public getFormattedDate(){
     let fecha = new FechaPipe();
-    console.log(this.fch_Nac)
-    console.log(fecha.transform(this.fch_Nac,TipoFecha.FechaYHora))
     return fecha.transform(this.fch_Nac,TipoFecha.FechaYHora);
   }
 }
