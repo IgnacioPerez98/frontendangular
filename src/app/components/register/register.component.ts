@@ -24,15 +24,28 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-    this.dataapi.crearFuncionarios(this.func).subscribe(
-      (ok)=>{
-        console.log(ok)
-        alert(ok)
-      },
-      (error)=>{
-        let e = error as Error;
-        alert(error.Message)
-      }
-    )
+    let res = this.func.datosOk();
+    if(typeof res === "boolean"){
+      this.dataapi.crearFuncionarios(this.func).subscribe(
+        (ok)=>{
+          let {text} = ok.error;
+            console.log("Funcionario agregado con exito.")
+            this.nav.navigate(['/login'])
+        },
+        (error:any)=>{
+          let {mensaje} = error.error;
+          if(typeof mensaje !== 'undefined'){
+            alert(mensaje);
+          }else {
+            console.log(error);
+          }
+        }
+      )
+    }else {
+      window.alert(res.toString())
+    }
+  }
+  volver(){
+    this.nav.navigate(['/login'])
   }
 }

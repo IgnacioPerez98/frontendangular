@@ -29,18 +29,27 @@
       </div>
       <div class="form-group">
         <label for="direccion">Dirección:</label>
-        <input class="form-control" type="password" id="direccion" [(ngModel)]="func.direccion" name="direccion" required>
+        <input class="form-control" type="text" id="direccion" [(ngModel)]="func.direccion" name="direccion" required>
       </div>
       <div class="form-group">
         <label for="telefono">Telefono:</label>
-        <input class="form-control" type="password" id="telefono" [(ngModel)]="func.telefono" name="telefono" required>
+        <input class="form-control" type="tel" id="telefono" [(ngModel)]="func.telefono" name="telefono" required>
       </div>
-      <button class="btn-primary btn " type="submit" >
-      <span class="ico material-symbols-outlined">
-        app_registration
-      </span>
-        Registrar
-      </button>
+      <div class="btn-group" role="group" aria-label="grupo login">
+
+        <button class="btn-primary btn " type="submit" >
+          <span class="ico material-symbols-outlined">
+            app_registration
+          </span>
+          Registrar
+        </button>
+        <button class="btn btn-light" (click)="volver()">
+            <span class="ico material-symbols-outlined">
+            arrow_back
+            </span>
+          Iniciar Sesión
+        </button>
+      </div>
     </form>
   </div>
 </div>
