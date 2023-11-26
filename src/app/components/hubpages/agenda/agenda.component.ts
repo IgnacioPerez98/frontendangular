@@ -72,4 +72,18 @@ export class AgendaComponent implements OnInit{
     }
   }
 
+  //stepper
+  currentStep: number = 1;
+  nextStep() {
+    if (this.currentStep < 5) {
+      this.currentStep++;
+    }
+  }
+
+  prevStep() {
+    if (this.currentStep > 1) {
+      this.currentStep--;
+    }
+  }
+
 }

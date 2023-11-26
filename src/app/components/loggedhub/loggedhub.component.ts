@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import * as jwtdecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
-import { CarnetSalud } from 'src/app/models/CarnetSalud';
-import { ReservaHora } from 'src/app/models/ReservaHora';
-import { PeriodosDisponibles } from 'src/app/models/responses/PeriodosDisponibles';
 import { DataapiService } from 'src/app/services/dataapi/dataapi.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-loggedhub',
@@ -19,7 +16,8 @@ export class LoggedhubComponent implements OnInit {
 
   constructor(
     private cookie:CookieService,
-    private apiService:DataapiService
+    private apiService:DataapiService,
+    private nav:Router
   ) { }
 
   ngOnInit() {
@@ -30,6 +28,11 @@ export class LoggedhubComponent implements OnInit {
   }
   getIsFuncionario(){
     return this.user.rol === "funcionario";
+  }
+
+  logout(){
+    this.cookie.delete('token');
+    this.nav.navigate(['login']);
   }
 
 /*  NO LO BORRE POR LAS DUDAS

@@ -1,0 +1,113 @@
+/* Reset some default styles */
+body, h1, h2, h3, p, ul, li {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+/* Stepper Styles */
+.stepper {
+  display: flex;
+  max-width: 800px;
+  margin: 50px auto;
+}
+
+.steps-container {
+  flex: 1;
+}
+
+.steps {
+  display: flex;
+}
+
+.step {
+  cursor: pointer;
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+}
+
+.step-title {
+  text-align: center;
+}
+
+.step-number {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.step-text {
+  font-size: 14px;
+}
+
+.stepper-content-container {
+  flex: 3;
+}
+
+.stepper-content {
+  display: none;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/*stepper*/
+/* three-step-form.component.css */
+.three-step-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-container {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.step {
+  flex: 1;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.step.active {
+  background-color: #1e1776;
+  color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.navigation-container {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+}
+.container{
+  width: 90vw;
+}
+button {
+  padding: 10px;
+  cursor: pointer;
+}
+.card{
+  min-height: 70vh;
+  max-height: 75vh;
+}
+
+
+
+
