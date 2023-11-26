@@ -1,12 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
 import {DataapiService} from "../../../services/dataapi/dataapi.service";
-import {Router, RouterEvent} from "@angular/router";
-import {ReservaHora} from "../../../models/ReservaHora";
+import {Router} from "@angular/router";
 import * as jwtdecode from "jwt-decode";
 import {CookieService} from "ngx-cookie-service";
 import {PeriodosDisponibles} from "../../../models/responses/PeriodosDisponibles";
 import {PeriodoEspecial} from "../../../models/PeriodoEspecial";
+import {Agenda} from "../../../models/responses/Agenda";
+import {ReservaHora} from "../../../models/ReservaHora";
+import {AuthService} from "../../../services/auth/auth.service";
+import {Error} from "../../../models/responses/Error";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-agenda',
@@ -16,22 +19,16 @@ import {PeriodoEspecial} from "../../../models/PeriodoEspecial";
 export class AgendaComponent implements OnInit{
   user:any;
   periodos: PeriodosDisponibles[] = [];
-  reserva:any;
-  reservaForm:boolean = true;
+  periodo : PeriodoEspecial;
+  selectedDate:string;
+  turnos: Agenda[] = [];
+  turno:Agenda;
 
-
-
-  reservaFormGroup= new FormGroup({
-    numero: new FormControl(0,{nonNullable:true}),
-    ci: new FormControl('',{nonNullable:true}),
-    fechaAgenda: new FormControl('',{nonNullable:true}),
-    reservado: new FormControl(false,{nonNullable:true}),
-    periodo: new FormControl('',{nonNullable:true})
-  });
-
+  correcto = false;
   constructor(private apiService: DataapiService,
               private nav:Router,
-              private cookie:CookieService
+              private cookie:CookieService,
+              private auth:AuthService
 
   ) {}
   ngOnInit(): void {
@@ -39,9 +36,26 @@ export class AgendaComponent implements OnInit{
     this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
   }
 
+  getCI(){
+    const token = this.cookie.get('token');
+    let claims: any =  this.auth.decodeToken(token)
+    return claims.ci as string;
+  }
   onSubmit(){
-    console.log(this.reservaFormGroup.value);
-    this.checkReservaForm(this.reservaFormGroup.value.ci, this.reservaFormGroup.value.fechaAgenda, this.reservaFormGroup.value.periodo);
+    let reserva = new ReservaHora(
+      this.turno.numero,
+      this.getCI(),
+      new Date(this.turno.fecha_Agenda),
+      true);
+
+      this.apiService.reservarHora(reserva,this.periodo.fch_Inicio, this.periodo.fch_Fin).subscribe(
+        ok=>{
+          alert(ok);
+        },
+        error => {
+          alert(error)
+        }
+      )
   }
   obtenerPeriodos(){
     this.apiService.getPeriodosDisponibles().subscribe(
@@ -51,13 +65,12 @@ export class AgendaComponent implements OnInit{
           let period = new PeriodosDisponibles(
             p.anio,
             p.semestre,
-            new Date(p.fch_Inicio+'.000Z'),
-            new Date(p.fch_Fin+'.000Z'),
+            new Date(p.fch_Inicio),
+            new Date(p.fch_Fin),
             p.isOpen
           )
           this.periodos.push( period);
         })
-        console.log("periodos",this.periodos);
       },
       (error)=>{
         this.nav.navigate(['/error'])
@@ -65,27 +78,69 @@ export class AgendaComponent implements OnInit{
       }
     )
   }
-  checkReservaForm(ci:string|undefined, fecha:string|undefined, periodo:string|undefined){
-    if(ci!==undefined && fecha!==undefined && periodo!==undefined ){
-      const date = new Date(fecha);
-      const fechaInicioPeriodo = new Date(periodo.split('/')[0]);
-      const fechaFinPeriodo = new Date(periodo.split('/')[1]);
-      this.reserva = new ReservaHora(1, ci, date, true);
 
-      this.apiService.reservarHora(this.reserva, fechaInicioPeriodo, fechaFinPeriodo).subscribe(
-        (ok)=>{console.log(ok)},
-        (error)=>{console.error(error)}
-      )
-      alert("Reserva realizada con éxito!");
-    }
-    else{
-      alert("Debe completar todos los campos");
-    }
+  getHora(fecha:Date){
+    const f1 = new Date(fecha);
+    return `${f1.getHours()}:${f1.getMinutes().toString().padStart(2,"0")}`
   }
 
+  sonIguales(fecha1: Date, fecha2: Date): boolean {
+    const f1 = new Date(fecha1);
+    return (
+      f1.getFullYear() === fecha2.getFullYear() &&
+      f1.getMonth() === fecha2.getMonth() &&
+      f1.getDate() === fecha2.getDate()
+    );
+  }
+  isDisabledDate(date: string): boolean {
+    const currentDate = new Date(date);
+    const minDateTime = new Date(this.periodo.fch_Inicio);
+    const maxDateTime = new Date(this.periodo.fch_Fin);
+    return currentDate < minDateTime || currentDate > maxDateTime;
+  }
   //stepper
   currentStep: number = 1;
+
+  isDisabledNext(){
+    switch (this.currentStep){
+      case 1:
+        if(this.periodo === null) return false;
+        break;
+      case 3:
+        if (this.turno === null || this.turno === undefined) return true;
+        break;
+      case 4:
+        return true;
+    }
+    return false;
+  }
+  isDisabledPrev(){
+    switch (this.currentStep){
+      case 1:
+        return false;
+        break;
+    }
+    return false;
+  }
   nextStep() {
+    switch (this.currentStep){
+      case 1:
+        let p = new PeriodoEspecial(this.periodo.anio,this.periodo.semestre,this.periodo.fch_Inicio, this.periodo.fch_Fin);
+        //cargo las fechas
+        this.apiService.getFechasDisponibles(p.fch_Inicio,p.fch_Fin).subscribe(
+          (ok)=> {
+            ok.forEach( ag=>{
+              this.turnos.push(ag)
+            })//ok
+          },
+          (error)=>{
+            return;
+          }
+        )
+        break;
+      case 2:
+        this.turnos = this.turnos.filter(t => this.sonIguales(t.fecha_Agenda,new Date(this.selectedDate)))
+    }
     if (this.currentStep < 5) {
       this.currentStep++;
     }
@@ -96,5 +151,4 @@ export class AgendaComponent implements OnInit{
       this.currentStep--;
     }
   }
-
 }

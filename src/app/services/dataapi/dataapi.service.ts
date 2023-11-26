@@ -11,6 +11,7 @@ import {ReservaHora} from 'src/app/models/ReservaHora';
 import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 import {CarnetSalud} from "../../models/CarnetSalud";
 import {CarnetInfo} from "../../models/responses/CarnetInfo";
+import {Agenda} from "../../models/responses/Agenda";
 
 @Injectable({
   providedIn: 'root'
@@ -125,12 +126,12 @@ export class DataapiService {
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    const ending = `carnetsalud/fechasdisponibles/${pipe.transform(inicio, TipoFecha.SoloFecha)}/${pipe.transform(final,TipoFecha.SoloFecha)}`;
-    return this.http.get(this.API_ENDPOINT+ending, {headers:header});
+    const ending = `clinica/fechasdisponibles/${pipe.transform(inicio, TipoFecha.SoloFecha)}/${pipe.transform(final,TipoFecha.SoloFecha)}`;
+    return this.http.get<Agenda[]>(this.API_ENDPOINT+ending, {headers:header});
   }
   public reservarHora(turno:ReservaHora,inicPeriodo:Date, finPeriodo:Date){
     const pipe = new FechaPipe();
-    const ending = `carnetsalud/resrvarhora/${pipe.transform(inicPeriodo, TipoFecha.SoloFecha)}/${pipe.transform(finPeriodo,TipoFecha.SoloFecha)}`
+    const ending = `clinica/reservarhora/${pipe.transform(inicPeriodo, TipoFecha.SoloFecha)}/${pipe.transform(finPeriodo,TipoFecha.SoloFecha)}`
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
@@ -142,8 +143,7 @@ export class DataapiService {
       "fecha_Agenda": `${pipe.transform(turno.fecha_Agenda,TipoFecha.FechaYHora)}`,
       "estaReservado": turno.estaReservado
     }
-    console.log("body",body);
-    return this.http.post(this.API_ENDPOINT+ending, body);
+    return this.http.post(this.API_ENDPOINT+ending, body, {headers:header,responseType: 'text'});
   }
 
 

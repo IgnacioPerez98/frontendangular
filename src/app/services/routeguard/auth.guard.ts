@@ -11,7 +11,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   const token = cookie.get('token');
   if(token){
-    console.log("token",token);
     return true;
   }
   window.alert("No tienes permisos para acceder a esta página");

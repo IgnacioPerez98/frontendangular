@@ -19,17 +19,14 @@
               Finalizar
             </div>
           </div>
-
-
-          <form [formGroup]="reservaFormGroup" (submit)="onSubmit();" *ngIf="periodos.length!==0" >
-
             <div class="step-content">
+              <!--Seleccionar periodo -->
               <ng-container *ngIf="currentStep === 1">
                 <div class="stepper-content-hold">
                   <div class="form-group">
                     <label for="periodo">Periodo</label>
-                    <select id="periodo" formControlName="periodo" name="periodo" required>
-                      <option *ngFor="let periodo of this.periodos"  [disabled]="!periodo.isOpen"   value="{{periodo.fch_Inicio}}/{{periodo.fch_Fin}}" >
+                    <select id="periodo" [(ngModel)]="periodo" name="periodo" required>
+                      <option *ngFor="let periodo of this.periodos"   [ngValue]="periodo" >
                         {{ periodo.getFechaLinda(1)}}/{{periodo.getFechaLinda(2)}}
                       </option>
                     </select>
@@ -38,37 +35,48 @@
               </ng-container>
 
               <ng-container *ngIf="currentStep === 2">
+                <!--Seleccionar Dia -->
                 <div class="stepper-content-hold">
-                  <div class="form-group">
-                    <label for="ci">Cedula de Identidad</label>
-                    <input type="text" id="ci" formControlName="ci" name="ci" required minlength="4">
-                  </div>
+                  <label for="selectedDate">Seleccione un día:</label>
+                  <input type="date" id="selectedDate" [(ngModel)]="selectedDate" [min]="periodo.fch_Inicio.toISOString().split('T')[0]" [max]="periodo.fch_Fin.toISOString().split('T')[0]" [disabled]="isDisabledDate(selectedDate)">
                 </div>
               </ng-container>
 
               <ng-container *ngIf="currentStep === 3">
+                <!--Seleccionar turno -->
                 <div class="stepper-content-hold">
-                  <div class="form-group">
-                    <label for="fechaAgenda">Fecha</label>
-                    <input type="text" id="fechaAgenda" formControlName="fechaAgenda" name="fechaAgenda" required>
-                  </div>
+                  <label for="turno">Numero de Agenda:</label>
+                  <select id="turno" [(ngModel)]="turno">
+                    <option *ngFor="let t of this.turnos"   [ngValue]="t" [disabled]="t.estaReservado" >
+                      Numero: {{t.numero}} Horario: {{getHora(t.fecha_Agenda)}}
+                    </option>
+                  </select>
                 </div>
               </ng-container>
               <ng-container *ngIf="currentStep === 4">
-                <h5>Step 3 Content</h5>
-                <!-- Add your step 3 form fields here -->
-
-
-                <button class="btn-primary btn " type="submit" [disabled]="!reservaFormGroup" >Submit</button>
+                <div>
+                  <h5>Numero : {{turno.numero}}</h5>
+                  <h5>Cedula : {{getCI()}}</h5>
+                  <h5>Fecha : {{turno.fecha_Agenda}}</h5>
+                  <h5>Hora : {{getHora(turno.fecha_Agenda)}}</h5>
+                </div>
+                <button class="btn btn-success" (click)="onSubmit()">
+                  Confirmar Agenda:
+                </button>
               </ng-container>
+              <div *ngIf="correcto">
+                <span class="material-symbols-outlined">
+                  done
+                </span>
+                <h3>Agenda reservada con exito</h3>
+              </div>
 
             </div>
-          </form>
         </div>
         <div class="card-footer">
           <div class="navigation-container">
-            <button class="btn btn-secondary" (click)="prevStep()" [disabled]="currentStep === 1">Previous</button>
-            <button class="btn btn-primary" (click)="nextStep()" [disabled]="currentStep === 4">Next</button>
+            <button class="btn btn-secondary" (click)="prevStep()" [disabled]="isDisabledPrev()">Anterior</button>
+            <button class="btn btn-primary" (click)="nextStep()" [disabled]="isDisabledNext()">Siguiente</button>
           </div>
         </div>
       </div>
