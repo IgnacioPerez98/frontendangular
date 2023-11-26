@@ -24,33 +24,36 @@ export class CarnetsaludComponent {
     private cookie:CookieService,
     private apiService:DataapiService
   ) {}
-
-  onSubmit(){
-    //this.checkCarnetForm(this.carnetFormGroup.value.ci, this.carnetFormGroup.value.fechaEmision, this.carnetFormGroup.value.fechaVencimiento, this.carnetFormGroup.value.imagen);
-
-  }
   checkCarnetForm(ci:string|undefined, fechaEmision:string|undefined, fechaVencimiento:string|undefined, image:string|undefined){
     if(ci!==undefined && fechaEmision!==undefined && fechaVencimiento!==undefined && image!==undefined){
       const fechaEmis= new Date(fechaEmision);
       const fechaVenc = new Date(fechaVencimiento);
 
       this.carnet = new CarnetSalud(ci, fechaEmis, fechaVenc, image);
-      this.apiService.enviarCarnet(this.carnet).subscribe(
-        (ok:any)=>{
+      let validate = this.carnet.validarDatos();
+      if(typeof validate === 'boolean'){
+        //correcto
+        /*
+        this.apiService.enviarCarnet(this.carnet).subscribe(
+          (ok:any)=>{
 
-        },
-        (error:any)=>{
+          },
+          (error:any)=>{
 
-        }
-      );
-      alert("Carnet generado con éxito!");
+          }
+        );
+        */
+        alert("Carnet generado con éxito!");
+      }else {
+        alert(validate);
+      }
     }
     else{
       alert("Debe completar todos los campos");
     }
   }
-
-
-
-
+  Enviar() {
+    //this.checkCarnetForm(this.carnetFormGroup.value.ci, this.carnetFormGroup.value.fechaEmision, this.carnetFormGroup.value.fechaVencimiento, this.carnetFormGroup.value.imagen);
+    alert(this.carnetFormGroup.value.ci);
+  }
 }
