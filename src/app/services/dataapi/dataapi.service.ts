@@ -1,17 +1,14 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Funcionarios} from "../../models/Funcionarios";
 import {CookieService} from "ngx-cookie-service";
-import {SHA512Service} from "../hashing/sha512.service";
 import {HttpClient} from "@angular/common/http";
-import {DatePipe} from "@angular/common";
-import {Agenda} from "../../models/responses/Agenda";
 import {UpdateFuncionario} from "../../models/requests/UpdateFuncionario";
-import {end} from "@popperjs/core";
 import {PeriodosDisponibles} from "../../models/responses/PeriodosDisponibles";
 import {AuthService} from "../auth/auth.service";
 import {PeriodoEspecial} from "../../models/PeriodoEspecial";
-import { ValidateService } from '../validate/validate.service';
-import { ReservaHora } from 'src/app/models/ReservaHora';
+import {ValidateService} from '../validate/validate.service';
+import {ReservaHora} from 'src/app/models/ReservaHora';
+import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +40,8 @@ export class DataapiService {
       "direccion": `${func.direccion}`,
       "telefono": `${func.telefono}`,
       "email": `${func.email}`,
-      "password": `${func.pasword}` //lo mando hasheado
+      "password": `${func.pasword}`,
+      "esAdmin" : func.esAdmin
     }
     return this.http.post<any>(this.API_ENDPOINT+ending, body,{headers:header});
   }
@@ -78,18 +76,18 @@ export class DataapiService {
   }
 
   public  getFechasDisponibles(inicio :Date, final:Date){
-    const pipe = new DatePipe('en-US');
+    const pipe = new FechaPipe();
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    const ending = `carnetsalud/fechasdisponibles/${pipe.transform(inicio, 'yyyy-MM-dd')}/${pipe.transform(final,'yyyy-MM-dd')}`;
+    const ending = `carnetsalud/fechasdisponibles/${pipe.transform(inicio, TipoFecha.SoloFecha)}/${pipe.transform(final,TipoFecha.SoloFecha)}`;
     return this.http.get(this.API_ENDPOINT+ending, {headers:header});
   }
   public reservarHora(turno:ReservaHora,inicPeriodo:Date, finPeriodo:Date){
-    const pipe = new DatePipe('en-US');
-    const ending = `carnetsalud/resrvarhora/${pipe.transform(inicPeriodo, 'yyyy-MM-dd')}/${pipe.transform(finPeriodo,'yyyy-MM-dd')}`
+    const pipe = new FechaPipe();
+    const ending = `carnetsalud/resrvarhora/${pipe.transform(inicPeriodo, TipoFecha.SoloFecha)}/${pipe.transform(finPeriodo,TipoFecha.SoloFecha)}`
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
@@ -98,7 +96,7 @@ export class DataapiService {
     const body = {
       "numero": turno.numero,
       "ci": `${turno.ci}`,
-      "fecha_Agenda": `${this.validateService.getFormattedDate(turno.fecha_Agenda)}`,
+      "fecha_Agenda": `${pipe.transform(turno.fecha_Agenda,TipoFecha.FechaYHora)}`,
       "estaReservado": turno.estaReservado
     }
     console.log("body",body);
@@ -118,12 +116,12 @@ export class DataapiService {
         'Content-Type': 'application/json',
         'Authorization' : `Bearer ${this.cookie.get('token')}`
       }
-      const pipe = new DatePipe('en-US');
+      const pipe = new FechaPipe();
       const body = {
         "anio": periodo.anio,
         "semestre": periodo.semestre,
-        "fch_Inicio" : pipe.transform(periodo.fch_Inicio,'yyyy-MM-ddTHH:mm:ss.SSSZ') ,
-        "fch_Fin": pipe.transform(periodo.fch_Fin,'yyyy-MM-ddTHH:mm:ss.SSSZ')
+        "fch_Inicio" : pipe.transform(periodo.fch_Inicio,TipoFecha.FechaYHora) ,
+        "fch_Fin": pipe.transform(periodo.fch_Fin,TipoFecha.FechaYHora)
       }
       return this.http.post(this.API_ENDPOINT+ending, body,{headers:header})
   }

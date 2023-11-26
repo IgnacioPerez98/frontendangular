@@ -1,4 +1,5 @@
-import {DatePipe} from "@angular/common";
+import {FechaPipe, TipoFecha} from "../pipe/fecha/fecha.pipe";
+
 /*
 Example Value
 Schema
@@ -45,9 +46,7 @@ export class Funcionarios{
     this.esAdmin = esAdmin;
   }
   public getFormattedDate(){
-    let fecha = new DatePipe('en-US')
-    let fc = fecha.transform(this.fch_Nac,'yyyy-MM-ddTHH:mm:ss.SSSZ')
-    if(typeof fc === 'string'){ return fc};
-    return "";
+    let fecha = new FechaPipe();
+    return fecha.transform(this.fch_Nac,TipoFecha.FechaYHora);
   }
 }

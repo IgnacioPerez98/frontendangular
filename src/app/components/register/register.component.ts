@@ -1,10 +1,9 @@
 import {Component, Pipe} from '@angular/core';
-import {flatMap} from "rxjs";
 import {AuthService} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
-import {EmailValidator} from "@angular/forms";
 import {Funcionarios} from "../../models/Funcionarios";
-import {DatePipe} from "@angular/common";
+import {DataapiService} from "../../services/dataapi/dataapi.service";
+import {Error} from "../../models/responses/Error";
 
 @Component({
   selector: 'app-register',
@@ -18,13 +17,22 @@ export class RegisterComponent {
 
   constructor(
     private auth:AuthService,
-    private nav:Router
+    private nav:Router,
+    private dataapi:DataapiService
   ) {
     this.hoy.setDate(Date.now())
   }
 
   onSubmit() {
-    // Aquí puedes agregar una lógica para guardar el usuario en una base de datos, etc.
-    alert('Usuario registrado con éxito!');
+    this.dataapi.crearFuncionarios(this.func).subscribe(
+      (ok)=>{
+        console.log(ok)
+        alert(ok)
+      },
+      (error)=>{
+        let e = error as Error;
+        alert(error.Message)
+      }
+    )
   }
 }

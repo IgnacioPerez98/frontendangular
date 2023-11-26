@@ -11,6 +11,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HeaderComponent } from './components/header/header.component';
 import {authGuard} from "./services/routeguard/auth.guard";
+import { FechaPipe } from './pipe/fecha/fecha.pipe';
 
 const routes: Routes = [
   {path:'', redirectTo:'/login', pathMatch: 'full'},
@@ -27,7 +28,8 @@ const routes: Routes = [
     LoginComponent,
     RegisterComponent,
     LoggedhubComponent,
-    HeaderComponent
+    HeaderComponent,
+    FechaPipe
   ],
   imports: [
     BrowserModule,
