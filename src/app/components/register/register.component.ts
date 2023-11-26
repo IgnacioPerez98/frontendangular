@@ -20,7 +20,6 @@ export class RegisterComponent {
     private nav:Router,
     private dataapi:DataapiService
   ) {
-    this.hoy.setDate(Date.now())
   }
 
   onSubmit() {
