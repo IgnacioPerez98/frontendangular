@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import * as jwtdecode from 'jwt-decode';
 import { CookieService } from 'ngx-cookie-service';
-import { CarnetSalud } from 'src/app/models/CarnetSalud';
-import { ReservaHora } from 'src/app/models/ReservaHora';
-import { PeriodosDisponibles } from 'src/app/models/responses/PeriodosDisponibles';
 import { DataapiService } from 'src/app/services/dataapi/dataapi.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-loggedhub',
@@ -14,8 +11,31 @@ import { DataapiService } from 'src/app/services/dataapi/dataapi.service';
 })
 export class LoggedhubComponent implements OnInit {
 
-  user:any; 
+  user:any;
   isFuncionario:boolean = false;
+
+  constructor(
+    private cookie:CookieService,
+    private apiService:DataapiService,
+    private nav:Router
+  ) { }
+
+  ngOnInit() {
+    this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
+    console.log("user",this.user);
+    this.isFuncionario= this.getIsFuncionario();
+    //this.obtenerPeriodos();
+  }
+  getIsFuncionario(){
+    return this.user.rol === "funcionario";
+  }
+
+  logout(){
+    this.cookie.delete('token');
+    this.nav.navigate(['login']);
+  }
+
+/*  NO LO BORRE POR LAS DUDAS
   reservaForm:boolean = false;
   carnetForm:boolean = false;
   periodos: any[] = [];
@@ -40,21 +60,6 @@ export class LoggedhubComponent implements OnInit {
     imagen: new FormControl(ImageBitmap,{nonNullable:true})
   });
 
-  constructor(
-    private cookie:CookieService,
-    private apiService:DataapiService
-  ) { }
-
-  ngOnInit() {
-    this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
-    console.log("user",this.user);
-    this.isFuncionario= this.getIsFuncionario();
-    this.obtenerPeriodos();
-  }
-
-  getIsFuncionario(){
-    return this.user.rol === "funcionario";
-  }
 
   toggleForm(value: string) {
     switch (value) {
@@ -78,12 +83,12 @@ export class LoggedhubComponent implements OnInit {
         //this.checkCarnetForm(this.carnetFormGroup.value.ci, this.carnetFormGroup.value.fechaEmision, this.carnetFormGroup.value.fechaVencimiento, this.carnetFormGroup.value.imagen);
         break;
     }
-    
+
   }
   obtenerPeriodos(){
     this.apiService.getPeriodosDisponibles().subscribe(
       (periodos)=>{
-        
+
         this.periodos = periodos;
         console.log("periodos",this.periodos);
       },
@@ -106,10 +111,10 @@ export class LoggedhubComponent implements OnInit {
     }
     else{
       alert("Debe completar todos los campos");
-    }  
+    }
   }
 
-  checkCarnetForm(ci:string|undefined, fechaEmision:string|undefined, fechaVencimiento:string|undefined, image:ImageBitmap|undefined){
+  checkCarnetForm(ci:string|undefined, fechaEmision:string|undefined, fechaVencimiento:string|undefined, image:string|undefined){
     if(ci!==undefined && fechaEmision!==undefined && fechaVencimiento!==undefined && image!==undefined){
       const fechaEmis= new Date(fechaEmision);
       const fechaVenc = new Date(fechaVencimiento);
@@ -122,6 +127,6 @@ export class LoggedhubComponent implements OnInit {
       alert("Debe completar todos los campos");
     }
   }
-
+*/
 
 }

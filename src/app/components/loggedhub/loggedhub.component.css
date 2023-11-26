@@ -38,3 +38,22 @@ flex: 1 0 10rem;
 button{
    width: fit-content;
 }
+
+
+.logo-ucu{
+  height: 7vh;
+
+}
+.nav-link{
+  vertical-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+.nav-link:hover{
+  vertical-align: center;
+  font-size: 1.5rem;
+  background-color: #1e1776;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+}
