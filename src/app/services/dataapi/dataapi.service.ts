@@ -9,6 +9,8 @@ import {PeriodoEspecial} from "../../models/PeriodoEspecial";
 import {ValidateService} from '../validate/validate.service';
 import {ReservaHora} from 'src/app/models/ReservaHora';
 import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
+import {CarnetSalud} from "../../models/CarnetSalud";
+import {CarnetInfo} from "../../models/responses/CarnetInfo";
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +24,47 @@ export class DataapiService {
     private auth :AuthService,
     private validateService:ValidateService
   ) { }
+  //***********************************************************************************
+  //Carnet Salud - 3 endpoints
+  //***********************************************************************************
+
+  public enviarCarnet(carnet:CarnetSalud){
+    const pipe = new FechaPipe();
+    const ending  = "carnetsalud/cargarcarnetsalud";
+    const header = {
+     'accept': '*/*',
+     'Content-Type': 'application/json',
+     'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    const body ={
+     "ci": "string",
+     "fecha_Emision": "2023-11-26T14:35:26.959Z",
+     "fecha_Vencimiento": "2023-11-26T14:35:26.959Z",
+     "image": "string"
+    }
+    return this.http.post<any>(this.API_ENDPOINT+ending , body, {headers:header});
+  }
+
+  public obtenerDatosCarnet(ci : string){
+    let  ending = `carnetsalud/obtenercarnet/${ci}`
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    return this.http.get<CarnetInfo>(this.API_ENDPOINT+ending, {headers:header});
+  }
+
+  public obtenerImagenBase64(ci:string){
+    let  ending = `carnetsalud/imagencarnet/${ci}`
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    return this.http.get<any>(this.API_ENDPOINT+ending, {headers:header});
+  }
+
   //***********************************************************************************
   //Funcionarios - 2 endpoints
   //***********************************************************************************

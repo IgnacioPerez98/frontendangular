@@ -35,7 +35,14 @@ export class CarnetsaludComponent {
       const fechaVenc = new Date(fechaVencimiento);
 
       this.carnet = new CarnetSalud(ci, fechaEmis, fechaVenc, image);
+      this.apiService.enviarCarnet(this.carnet).subscribe(
+        (ok:any)=>{
 
+        },
+        (error:any)=>{
+
+        }
+      );
       alert("Carnet generado con éxito!");
     }
     else{
