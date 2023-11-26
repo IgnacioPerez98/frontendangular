@@ -14,8 +14,25 @@ import { DataapiService } from 'src/app/services/dataapi/dataapi.service';
 })
 export class LoggedhubComponent implements OnInit {
 
-  user:any; 
+  user:any;
   isFuncionario:boolean = false;
+
+  constructor(
+    private cookie:CookieService,
+    private apiService:DataapiService
+  ) { }
+
+  ngOnInit() {
+    this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
+    console.log("user",this.user);
+    this.isFuncionario= this.getIsFuncionario();
+    //this.obtenerPeriodos();
+  }
+  getIsFuncionario(){
+    return this.user.rol === "funcionario";
+  }
+
+/*  NO LO BORRE POR LAS DUDAS
   reservaForm:boolean = false;
   carnetForm:boolean = false;
   periodos: any[] = [];
@@ -40,21 +57,6 @@ export class LoggedhubComponent implements OnInit {
     imagen: new FormControl(ImageBitmap,{nonNullable:true})
   });
 
-  constructor(
-    private cookie:CookieService,
-    private apiService:DataapiService
-  ) { }
-
-  ngOnInit() {
-    this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
-    console.log("user",this.user);
-    this.isFuncionario= this.getIsFuncionario();
-    this.obtenerPeriodos();
-  }
-
-  getIsFuncionario(){
-    return this.user.rol === "funcionario";
-  }
 
   toggleForm(value: string) {
     switch (value) {
@@ -78,12 +80,12 @@ export class LoggedhubComponent implements OnInit {
         //this.checkCarnetForm(this.carnetFormGroup.value.ci, this.carnetFormGroup.value.fechaEmision, this.carnetFormGroup.value.fechaVencimiento, this.carnetFormGroup.value.imagen);
         break;
     }
-    
+
   }
   obtenerPeriodos(){
     this.apiService.getPeriodosDisponibles().subscribe(
       (periodos)=>{
-        
+
         this.periodos = periodos;
         console.log("periodos",this.periodos);
       },
@@ -106,10 +108,10 @@ export class LoggedhubComponent implements OnInit {
     }
     else{
       alert("Debe completar todos los campos");
-    }  
+    }
   }
 
-  checkCarnetForm(ci:string|undefined, fechaEmision:string|undefined, fechaVencimiento:string|undefined, image:ImageBitmap|undefined){
+  checkCarnetForm(ci:string|undefined, fechaEmision:string|undefined, fechaVencimiento:string|undefined, image:string|undefined){
     if(ci!==undefined && fechaEmision!==undefined && fechaVencimiento!==undefined && image!==undefined){
       const fechaEmis= new Date(fechaEmision);
       const fechaVenc = new Date(fechaVencimiento);
@@ -122,6 +124,6 @@ export class LoggedhubComponent implements OnInit {
       alert("Debe completar todos los campos");
     }
   }
-
+*/
 
 }

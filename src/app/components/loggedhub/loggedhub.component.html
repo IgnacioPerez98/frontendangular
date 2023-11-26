@@ -1,9 +1,14 @@
 <div id="main" class="row justify-content-center">
+  <!-- antigua navegacion
     <div id="header" class="col-12">
-        <app-header [isFuncionario]="isFuncionario" (toggleFormEvent)="toggleForm($event)" ></app-header>
+    -->
+         <!-- el app header tenia (toggleFormEvent)="toggleForm($event)" -->
+  <!--
+        <app-header [isFuncionario]="isFuncionario"  ></app-header>
     </div>
     <div class="col-10" id="container" *ngIf="user!==undefined">
-        <h1 id="hello-user" >Hi {{user.nombre}}!</h1>
+        <h1 id="hello-user" >Bienvenido {{user.nombre}}!</h1>
+
 
         <div class="card" *ngIf="reservaForm">
             <div class="card-body text-center">
@@ -53,8 +58,50 @@
                     <button class="btn-primary btn " type="submit" >Submit</button>
                     <button class="btn-secondary btn " (click)="toggleForm('Carnet')" >Cancel</button>
 
-                </form>  
+                </form>
             </div>
         </div>
     </div>
+
+       -->
+
+  <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand">
+        <img class="logo-ucu" src="assets/logo_ucu.svg">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="carnetsalud">Carnet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" routerLink="agendarme">Agenda</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="datospersonales">Editar Datos</a>
+          </li>
+          <li class="nav-item" [hidden]="!isFuncionario">
+            <a class="nav-link" routerLink="/hub/admin/periodos">Periodos</a>
+          </li>
+          <li class="nav-item" [hidden]="!isFuncionario">
+            <a class="nav-link" routerLink="/hub/admin/listardesactualizados">Funcionarios Desactualizados</a>
+          </li>
+        </ul>
+        <span class="navbar-text">
+          <button class="btn btn-outline-danger">
+            <span class="material-symbols-outlined">
+            logout
+            </span>
+            Log Out
+          </button>
+      </span>
+      </div>
+    </div>
+  </nav>
+
 </div>
+<router-outlet></router-outlet>

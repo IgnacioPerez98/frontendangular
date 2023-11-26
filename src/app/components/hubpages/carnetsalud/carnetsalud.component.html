@@ -1,0 +1,24 @@
+
+<div class="card" >
+  <div class="card-body text-center">
+    <h5 class="card-title">Cargar carnet</h5>
+    <form [formGroup]="carnetFormGroup" (submit)="onSubmit();" >
+      <div class="form-gp">
+
+        <input type="text" id="ci" placeholder="Cedula" formControlName="ci" name="ci" required>
+      </div>
+      <div class="form-gp">
+
+        <input type="text" id="fecha_emision" placeholder="Fecha de emision" formControlName="fechaEmision" name="fecha_emision" required>
+      </div>
+      <div class="form-gp">
+        <input type="text" id="fecha_vencimiento" placeholder="Fecha de vencimiento" formControlName="fechaVencimiento" name="fecha_vencimiento" required>
+      </div>
+      <div class="form-gp">
+        <label for="imagen" style="margin-right: 1vw;" >Imagen:</label>
+        <input type="file" id="imagen" formControlName="imagen" name="imagen" required>
+      </div>
+      <button class="btn-primary btn " type="submit" >Enviar Datos</button>
+    </form>
+  </div>
+</div>
