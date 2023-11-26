@@ -1,5 +1,5 @@
-import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +14,13 @@ export class ValidateService {
     return false;
   }
 
+  public soloNumeros(param:string){
+    return  /^[0-9]+$/.test(param)
+  }
+
+
   public getFormattedDate(fechaParam:Date){
-    let fecha = new DatePipe('en-US')
-    let fc = fecha.transform(fechaParam,'yyyy-MM-ddTHH:mm:ss.SSSZ')
-    if(typeof fc === 'string'){ return fc};
-    return "";
-  } 
+    let pipe = new FechaPipe();
+    return pipe.transform(fechaParam, TipoFecha.FechaYHora);
+  }
 }

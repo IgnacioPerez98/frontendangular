@@ -14,7 +14,7 @@ export class CarnetSalud{
 
   validarDatos(){
     const v = new ValidateService();
-    if (v.isNullorEmpty(this.cedula)) return "La cédula no es válida";
+    if (v.isNullorEmpty(this.cedula) || !v.soloNumeros(this.cedula)) return "La cédula no es válida";
     if (this.fecha_Emision.toString() === 'Invalid Date') return "La fecha de emision no es válida";
     if (this.fecha_Emision > new Date()) return "No se pueden subir carnet vencidos";
     if (v.isNullorEmpty(this.imagenBase64)) return "La imagen no es valida";
