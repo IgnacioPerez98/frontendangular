@@ -29,7 +29,7 @@
                   <div class="form-group">
                     <label for="periodo">Periodo</label>
                     <select id="periodo" formControlName="periodo" name="periodo" required>
-                      <option *ngFor="let periodo of this.periodos" value="{{periodo.fch_Inicio}}/{{periodo.fch_Fin}}" >
+                      <option *ngFor="let periodo of this.periodos"  [disabled]="!periodo.isOpen"   value="{{periodo.fch_Inicio}}/{{periodo.fch_Fin}}" >
                         {{ periodo.getFechaLinda(1)}}/{{periodo.getFechaLinda(2)}}
                       </option>
                     </select>
