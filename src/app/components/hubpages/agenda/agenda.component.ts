@@ -5,6 +5,8 @@ import {Router, RouterEvent} from "@angular/router";
 import {ReservaHora} from "../../../models/ReservaHora";
 import * as jwtdecode from "jwt-decode";
 import {CookieService} from "ngx-cookie-service";
+import {PeriodosDisponibles} from "../../../models/responses/PeriodosDisponibles";
+import {PeriodoEspecial} from "../../../models/PeriodoEspecial";
 
 @Component({
   selector: 'app-agenda',
@@ -13,7 +15,7 @@ import {CookieService} from "ngx-cookie-service";
 })
 export class AgendaComponent implements OnInit{
   user:any;
-  periodos: any[] = [];
+  periodos: PeriodosDisponibles[] = [];
   reserva:any;
   reservaForm:boolean = true;
 
@@ -45,7 +47,16 @@ export class AgendaComponent implements OnInit{
     this.apiService.getPeriodosDisponibles().subscribe(
       (periodos)=>{
 
-        this.periodos = periodos;
+        periodos.forEach( p =>{
+          let period = new PeriodosDisponibles(
+            p.anio,
+            p.semestre,
+            new Date(p.fch_Inicio+'.000Z'),
+            new Date(p.fch_Fin+'.000Z'),
+            p.isOpen
+          )
+          this.periodos.push( period);
+        })
         console.log("periodos",this.periodos);
       },
       (error)=>{

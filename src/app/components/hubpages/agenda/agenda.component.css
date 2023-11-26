@@ -96,24 +96,23 @@ body {
   justify-content: space-between;
   width: 200px;
 }
-.container{
+button {
+  padding: 10px;
+  cursor: pointer;
+}
+.card{
+  max-width: 75vw;
+  min-height: 70vh;
+  max-height: 75vh;
+}
+
+.fondo{
   min-width: 100vw;
   min-height: 87vh;
   max-height: 87vh;
   width: 100%;
   height: 100%;
   background-image: url("/assets/ucupatio.jpg");
-}
-button {
-  padding: 10px;
-  cursor: pointer;
-}
-.card{
-  min-height: 70vh;
-  max-height: 75vh;
-}
-
-.fondo{
 }
 
 
