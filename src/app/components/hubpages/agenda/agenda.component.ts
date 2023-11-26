@@ -7,6 +7,7 @@ import * as jwtdecode from "jwt-decode";
 import {CookieService} from "ngx-cookie-service";
 import {PeriodosDisponibles} from "../../../models/responses/PeriodosDisponibles";
 import {PeriodoEspecial} from "../../../models/PeriodoEspecial";
+import {Agenda} from "../../../models/responses/Agenda";
 
 @Component({
   selector: 'app-agenda',
@@ -18,6 +19,11 @@ export class AgendaComponent implements OnInit{
   periodos: PeriodosDisponibles[] = [];
   reserva:any;
   reservaForm:boolean = true;
+
+
+  periodo : PeriodoEspecial;
+  dia:Date;
+  turno: Agenda[] = [];
 
 
 

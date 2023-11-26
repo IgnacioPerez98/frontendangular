@@ -24,6 +24,7 @@
           <form [formGroup]="reservaFormGroup" (submit)="onSubmit();" *ngIf="periodos.length!==0" >
 
             <div class="step-content">
+              <!--Seleccionar periodo -->
               <ng-container *ngIf="currentStep === 1">
                 <div class="stepper-content-hold">
                   <div class="form-group">
@@ -38,6 +39,7 @@
               </ng-container>
 
               <ng-container *ngIf="currentStep === 2">
+                <!--Seleccionar Dia -->
                 <div class="stepper-content-hold">
                   <div class="form-group">
                     <label for="ci">Cedula de Identidad</label>
@@ -47,6 +49,7 @@
               </ng-container>
 
               <ng-container *ngIf="currentStep === 3">
+                <!--Seleccionar turno -->
                 <div class="stepper-content-hold">
                   <div class="form-group">
                     <label for="fechaAgenda">Fecha</label>
@@ -55,6 +58,7 @@
                 </div>
               </ng-container>
               <ng-container *ngIf="currentStep === 4">
+                <!--Reservar -->
                 <h5>Step 3 Content</h5>
                 <!-- Add your step 3 form fields here -->
 
