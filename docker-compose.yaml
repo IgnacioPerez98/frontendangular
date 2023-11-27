@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: ./
+    ports:
+      - "80:80" # Asume que tu frontend escucha en el puerto 80
+    depends_on:
+      - backend
+
+  backend:
+    build: ../backendBaseDatos-.NET/backendBaseDatos/
+    ports:
+      - "3000:80" # Asume que tu backend escucha en el puerto 3000
