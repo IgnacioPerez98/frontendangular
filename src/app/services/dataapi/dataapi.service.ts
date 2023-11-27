@@ -12,6 +12,7 @@ import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 import {CarnetSalud} from "../../models/CarnetSalud";
 import {CarnetInfo} from "../../models/responses/CarnetInfo";
 import {Agenda} from "../../models/responses/Agenda";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -152,7 +153,7 @@ export class DataapiService {
   //***********************************************************************************
 
   public abrirPeriodoEspecial(periodo:PeriodoEspecial){
-      if(!this.esAdmin()) return;
+      if(!this.esAdmin()) return false as unknown as Observable<any>;
       const ending:string = 'ucuadmin/periodoespecial';
       const header = {
         'accept': '*/*',
