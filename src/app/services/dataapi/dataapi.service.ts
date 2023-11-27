@@ -3,7 +3,6 @@ import {Funcionarios} from "../../models/Funcionarios";
 import {CookieService} from "ngx-cookie-service";
 import {HttpClient} from "@angular/common/http";
 import {UpdateFuncionario} from "../../models/requests/UpdateFuncionario";
-import {PeriodosDisponibles} from "../../models/responses/PeriodosDisponibles";
 import {AuthService} from "../auth/auth.service";
 import {PeriodoEspecial} from "../../models/PeriodoEspecial";
 import {ValidateService} from '../validate/validate.service';
@@ -12,7 +11,8 @@ import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 import {CarnetSalud} from "../../models/CarnetSalud";
 import {CarnetInfo} from "../../models/responses/CarnetInfo";
 import {Agenda} from "../../models/responses/Agenda";
-import { Observable } from 'rxjs';
+import {BasicFuncionario} from "../../models/responses/BasicFuncionario";
+import {PeriodosDisponibles} from "../../models/responses/PeriodosDisponibles";
 
 @Injectable({
   providedIn: 'root'
@@ -39,12 +39,12 @@ export class DataapiService {
      'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
     const body ={
-     "ci": "string",
-     "fecha_Emision": "2023-11-26T14:35:26.959Z",
-     "fecha_Vencimiento": "2023-11-26T14:35:26.959Z",
-     "image": "string"
+     "ci": `${carnet.cedula}`,
+     "fecha_Emision": pipe.transform(carnet.fecha_Emision, TipoFecha.SoloFecha),
+     "fecha_Vencimiento": pipe.transform(carnet.Fecha_Vencimiento, TipoFecha.SoloFecha),
+     "image": `${carnet.imagenBase64}`
     }
-    return this.http.post<any>(this.API_ENDPOINT+ending , body, {headers:header});
+    return this.http.post(this.API_ENDPOINT+ending , body, {headers:header, responseType: 'text'});
   }
 
   public obtenerDatosCarnet(ci : string){
@@ -70,6 +70,18 @@ export class DataapiService {
   //***********************************************************************************
   //Funcionarios - 2 endpoints
   //***********************************************************************************
+
+  public obtenerFuncionarioActual(){
+    const ending = 'funcionarios/funcionario'
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    return this.http.get<Funcionarios>(this.API_ENDPOINT+ending,{headers:header, responseType:'json'})
+
+  }
+
   public crearFuncionarios(func:Funcionarios){
     const ending = 'funcionarios/funcionario'
     const header = {
@@ -122,12 +134,14 @@ export class DataapiService {
 
   public  getFechasDisponibles(inicio :Date, final:Date){
     const pipe = new FechaPipe();
+    let i = new Date(inicio);
+    let f = new Date(final);
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    const ending = `clinica/fechasdisponibles/${pipe.transform(inicio, TipoFecha.SoloFecha)}/${pipe.transform(final,TipoFecha.SoloFecha)}`;
+    const ending = `clinica/fechasdisponibles/${pipe.transform(i, TipoFecha.SoloFecha)}/${pipe.transform(f,TipoFecha.SoloFecha)}`;
     return this.http.get<Agenda[]>(this.API_ENDPOINT+ending, {headers:header});
   }
   public reservarHora(turno:ReservaHora,inicPeriodo:Date, finPeriodo:Date){
@@ -153,7 +167,7 @@ export class DataapiService {
   //***********************************************************************************
 
   public abrirPeriodoEspecial(periodo:PeriodoEspecial){
-      if(!this.esAdmin()) return false as unknown as Observable<any>;
+      if(!this.esAdmin()) return;
       const ending:string = 'ucuadmin/periodoespecial';
       const header = {
         'accept': '*/*',
@@ -167,7 +181,7 @@ export class DataapiService {
         "fch_Inicio" : pipe.transform(periodo.fch_Inicio,TipoFecha.FechaYHora) ,
         "fch_Fin": pipe.transform(periodo.fch_Fin,TipoFecha.FechaYHora)
       }
-      return this.http.post(this.API_ENDPOINT+ending, body,{headers:header})
+      return this.http.post(this.API_ENDPOINT+ending, body,{headers:header, responseType: 'json'})
   }
 
   public obtenerListaFuncionariosDesactualizados(){
@@ -178,7 +192,7 @@ export class DataapiService {
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    return this.http.get(this.API_ENDPOINT+ending, {headers:header});
+    return this.http.get<BasicFuncionario[]>(this.API_ENDPOINT+ending, {headers:header, responseType: "json"});
   }
 
   private esAdmin():boolean{

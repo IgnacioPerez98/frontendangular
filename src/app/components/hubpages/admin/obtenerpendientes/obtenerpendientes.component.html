@@ -1,1 +1,12 @@
-<p>obtenerpendientes works!</p>
+<div class="container text-center">
+    <div class="row header">
+      <div class="col">Nombre</div>
+      <div class="col">Apellido</div>
+      <div class="col">Correo</div>
+    </div>
+    <div *ngFor="let f of pend" class="row">
+      <div class="col">{{f.nombre}}</div>
+      <div class="col">{{f.apellido}}</div>
+      <div class="col">{{f.email}}</div>
+    </div>
+</div>

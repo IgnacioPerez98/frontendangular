@@ -24,6 +24,11 @@ export class LoggedhubComponent implements OnInit {
     this.user = jwtdecode.jwtDecode(this.cookie.get('token'));
     this.isFuncionario= this.getIsFuncionario();
     //this.obtenerPeriodos();
+    if(this.isFuncionario){
+      this.nav.navigate(['hub/user'])
+    } else {
+      this.nav.navigate(['hub/periodos'])
+    }
   }
   getIsFuncionario(){
     return this.user.rol === "funcionario";

@@ -2,30 +2,32 @@
   <div class="card" >
     <h5 class="card-header header-card">Cargar Carnet de Salud</h5>
     <div class="card-body text-center">
-      <form class="row g-2" [formGroup]="carnetFormGroup" (submit)="Enviar();" >
         <div class="mb-3 row form-gp">
           <label for="ci" class="col-sm-2 col-form-label">Cédula</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="ci" placeholder="12345678" formControlName="ci" name="ci" required>
+            <input type="text" [(ngModel)]="ci" class="form-control" id="ci" placeholder="12345678" >
           </div>
         </div>
         <div class="mb-3 row form-gp">
-          <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de Emision</label>
+          <label for="fecha_emision" class="col-sm-2 col-form-label">Fecha de Emisión</label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" id="fecha_emision" formControlName="fecha_emision" name="fecha_emision" required>
+            <input type="date"
+                   [(ngModel)]="fecha_Emision"
+                   class="form-control" id="fecha_emision" >
           </div>
         </div>
         <div class="mb-3 row form-gp">
           <label for="fecha_vencimiento" class="col-sm-2 col-form-label">Fecha de Vencimiento</label>
           <div class="col-sm-10">
-            <input type="date" class="form-control" id="fecha_vencimiento" formControlName="fecha_vencimiento" name="fecha_vencimiento" required>
+            <input type="date"
+                   [(ngModel)]="fecha_Vencimiento"
+                   class="form-control" id="fecha_vencimiento" >
           </div>
         </div>
         <div class="mb-3">
           <label for="imagen" class="form-label">Seleccione una imagen</label>
-          <input class="form-control" type="file" accept="image/jpeg, image/png" id="imagen" formControlName="imagen" name="imagen" required>
+          <input class="form-control" type="file" (change)="onFileSelected($event)" accept="image/jpeg, image/png" id="imagen">
         </div>
-      </form>
     </div>
 
     <div class="card-footer">
