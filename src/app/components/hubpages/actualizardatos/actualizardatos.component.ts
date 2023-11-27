@@ -62,7 +62,7 @@ export class ActualizardatosComponent {
             this.nav.navigate(['hub/user'])
           },
           error =>{
-            alert(error)
+            alert(error.message())
           }
         )
       }

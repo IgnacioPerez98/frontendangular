@@ -90,7 +90,7 @@ export class DataapiService {
     return this.http.post<any>(this.API_ENDPOINT+ending, body,{headers:header});
   }
   public  actualizarDatosFuncionarioActual(func:UpdateFuncionario){
-    const ending= 'funcionarios/funcionario';
+    const ending= 'funcionarios/funcionarioactual';
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
