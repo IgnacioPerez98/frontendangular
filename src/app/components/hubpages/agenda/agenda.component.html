@@ -26,7 +26,7 @@
                   <div class="form-group">
                     <label for="periodo">Periodo</label>
                     <select id="periodo" [(ngModel)]="periodo" name="periodo" required>
-                      <option *ngFor="let periodo of this.periodos"   [ngValue]="periodo" >
+                      <option *ngFor="let periodo of this.periodos" [disabled]="!periodo.isOpen" [ngValue]="periodo" >
                         {{ periodo.getFechaLinda(1)}}/{{periodo.getFechaLinda(2)}}
                       </option>
                     </select>
