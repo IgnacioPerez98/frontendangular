@@ -1,1 +1,33 @@
-<p>abrirperiodo works!</p>
+<div id="main" class="row  justify-content-center">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Abrir periodo</h1>
+            <form class="row g-2" [formGroup]="abrirPeriodoGroup" (submit)="enviar();">
+                <div class="mb-3 row form-gp">
+                    <label for="fechaInicio" class="col-sm-2 col-form-label">Fecha de inicio</label>
+                    <div class="col-sm-10">
+                      <input type="date" class="form-control" id="fechaInicio" formControlName="fechaInicio" name="fechaInicio" required>
+                    </div>
+                  </div>
+                  <div class="mb-3 row form-gp">
+                    <label for="fechaFin" class="col-sm-2 col-form-label">Fecha de fin</label>
+                    <div class="col-sm-10">
+                      <input type="date" class="form-control" id="fechaFin" formControlName="fechaFin" name="fechaFin" required>
+                    </div>
+                  </div>
+                  <div class="mb-3 row form-gp">
+                    <label for="semestre" class="col-sm-2 col-form-label">Numero de semestre</label>
+                    <div class="col-sm-10">
+                      <input type="date" class="form-control" id="semestre" formControlName="semestre" name="semestre" required>
+                    </div>
+                  </div>
+                  <div class="mb-3 row form-gp">
+                    <label for="anio" class="col-sm-2 col-form-label">Año</label>
+                    <div class="col-sm-10">
+                      <input type="date" class="form-control" id="anio" formControlName="anio" name="anio" required>
+                    </div>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>

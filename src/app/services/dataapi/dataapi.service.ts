@@ -12,7 +12,6 @@ import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 import {CarnetSalud} from "../../models/CarnetSalud";
 import {CarnetInfo} from "../../models/responses/CarnetInfo";
 import {Agenda} from "../../models/responses/Agenda";
-import {end} from "@popperjs/core";
 
 @Injectable({
   providedIn: 'root'
@@ -68,7 +67,7 @@ export class DataapiService {
   }
 
   //***********************************************************************************
-  //Funcionarios - 3 endpoints
+  //Funcionarios - 2 endpoints
   //***********************************************************************************
 
   public obtenerFuncionarioActual(){

@@ -20,10 +20,12 @@ export class CarnetsaludComponent {
     fechaVencimiento: new FormControl('',{nonNullable:true}),
     imagen: new FormControl('',{nonNullable:true})
   });
+  
   constructor(
     private cookie:CookieService,
     private apiService:DataapiService
   ) {}
+
   checkCarnetForm(ci:string|undefined, fechaEmision:string|undefined, fechaVencimiento:string|undefined, image:string|undefined){
     if(ci!==undefined && fechaEmision!==undefined && fechaVencimiento!==undefined && image!==undefined){
       const fechaEmis= new Date(fechaEmision);
