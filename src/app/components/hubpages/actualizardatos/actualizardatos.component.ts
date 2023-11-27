@@ -8,6 +8,7 @@ import {CarnetInfo} from "../../../models/responses/CarnetInfo";
 import {Funcionarios} from "../../../models/Funcionarios";
 import {UpdateFuncionario} from "../../../models/requests/UpdateFuncionario";
 import {ValidateService} from "../../../services/validate/validate.service";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-actualizardatos',
@@ -42,7 +43,7 @@ export class ActualizardatosComponent {
       //Estado del carnet
       this.estadoCarnet();
       this.obtenerImagen();
-
+      this.funcData();
     }
 
   impactarCambios(){
@@ -69,13 +70,16 @@ export class ActualizardatosComponent {
 
   }
 
-  errorNavigation(op : number)    {
-     if (op === 1) {
-       this.nav.navigate(['hub/agendarme']);
-     } else{
-       this.nav.navigate(['hub/carnetsalud']);
-     }
-
+  funcData(){
+      this.api.obtenerFuncionarioActual().subscribe(
+        ok =>{
+            this.direccion = ok.direccion;
+            this.telefono = ok.telefono;
+            this.email = ok.email;
+        },error=>{
+          console.log(error);
+        }
+      )
   }
 
   //requests

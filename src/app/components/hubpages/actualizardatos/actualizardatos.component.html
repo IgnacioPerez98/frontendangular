@@ -1,5 +1,5 @@
 <div class="fondo">
-  <div *ngIf="TieneCarnet;else sinCarnet" class="card mb-3">
+  <div class="card mb-3">
     <div class="row g-0">
       <div class="col-md-4">
         <img src="{{imagen}}" class="int-height img-fluid rounded-start" alt="...">
@@ -51,16 +51,4 @@
       </div>
     </div>
   </div>
-  <ng-template #sinCarnet>
-    <div class="card">
-      <h3>No cuentas con un carnet de salud, o el mismo no esta vigente.</h3>
-
-      <button class="btn btn-primary" (click)="errorNavigation(2)">
-        Cargar Carnet
-      </button>
-      <button class="btn btn-primary" (click)="errorNavigation(1)">
-        Reservar Hora
-      </button>
-    </div>
-  </ng-template>
 </div>
