@@ -12,6 +12,7 @@ import {FechaPipe, TipoFecha} from "../../pipe/fecha/fecha.pipe";
 import {CarnetSalud} from "../../models/CarnetSalud";
 import {CarnetInfo} from "../../models/responses/CarnetInfo";
 import {Agenda} from "../../models/responses/Agenda";
+import {end} from "@popperjs/core";
 
 @Injectable({
   providedIn: 'root'
@@ -67,8 +68,20 @@ export class DataapiService {
   }
 
   //***********************************************************************************
-  //Funcionarios - 2 endpoints
+  //Funcionarios - 3 endpoints
   //***********************************************************************************
+
+  public obtenerFuncionarioActual(){
+    const ending = 'funcionarios/funcionario'
+    const header = {
+      'accept': '*/*',
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${this.cookie.get('token')}`
+    }
+    return this.http.get<Funcionarios>(this.API_ENDPOINT+ending,{headers:header, responseType:'json'})
+
+  }
+
   public crearFuncionarios(func:Funcionarios){
     const ending = 'funcionarios/funcionario'
     const header = {
