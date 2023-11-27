@@ -1,0 +1,25 @@
+.fondo{
+  background-image: url("/assets/ucupatio.jpg");
+  min-width: 100vw;
+  min-height: 90vh;
+  max-height: 90vh;
+}
+.img-fluid{
+  margin: 15px;
+  max-width: 90%;
+}
+.card{
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 600px;
+  min-height: 60vh;
+  width: 90vw;
+}
+
+.btn{
+  width: 100%;
+}
+.int-height{
+  min-height: 45vh;
+  max-height: 45vh;
+}

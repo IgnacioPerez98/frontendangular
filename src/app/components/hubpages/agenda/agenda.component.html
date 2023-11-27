@@ -57,7 +57,7 @@
                 <div>
                   <h5>Numero : {{turno.numero}}</h5>
                   <h5>Cedula : {{getCI()}}</h5>
-                  <h5>Fecha : {{turno.fecha_Agenda}}</h5>
+                  <h5>Fecha : {{getFechita(turno.fecha_Agenda)}}</h5>
                   <h5>Hora : {{getHora(turno.fecha_Agenda)}}</h5>
                 </div>
                 <button class="btn btn-success" (click)="onSubmit()">
