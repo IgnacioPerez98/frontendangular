@@ -12,6 +12,7 @@ import {CarnetSalud} from "../../models/CarnetSalud";
 import {CarnetInfo} from "../../models/responses/CarnetInfo";
 import {Agenda} from "../../models/responses/Agenda";
 import {BasicFuncionario} from "../../models/responses/BasicFuncionario";
+import {PeriodosDisponibles} from "../../models/responses/PeriodosDisponibles";
 
 @Injectable({
   providedIn: 'root'
@@ -133,12 +134,14 @@ export class DataapiService {
 
   public  getFechasDisponibles(inicio :Date, final:Date){
     const pipe = new FechaPipe();
+    let i = new Date(inicio);
+    let f = new Date(final);
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    const ending = `clinica/fechasdisponibles/${pipe.transform(inicio, TipoFecha.SoloFecha)}/${pipe.transform(final,TipoFecha.SoloFecha)}`;
+    const ending = `clinica/fechasdisponibles/${pipe.transform(i, TipoFecha.SoloFecha)}/${pipe.transform(f,TipoFecha.SoloFecha)}`;
     return this.http.get<Agenda[]>(this.API_ENDPOINT+ending, {headers:header});
   }
   public reservarHora(turno:ReservaHora,inicPeriodo:Date, finPeriodo:Date){
@@ -178,7 +181,7 @@ export class DataapiService {
         "fch_Inicio" : pipe.transform(periodo.fch_Inicio,TipoFecha.FechaYHora) ,
         "fch_Fin": pipe.transform(periodo.fch_Fin,TipoFecha.FechaYHora)
       }
-      return this.http.post(this.API_ENDPOINT+ending, body,{headers:header, responseType: 'text'})
+      return this.http.post(this.API_ENDPOINT+ending, body,{headers:header, responseType: 'json'})
   }
 
   public obtenerListaFuncionariosDesactualizados(){

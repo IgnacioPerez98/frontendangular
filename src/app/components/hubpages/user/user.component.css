@@ -1,0 +1,19 @@
+.fondo{
+  min-height: 89vh;
+  min-width: 100vw;
+  background-image: url("/assets/ucupatio.jpg");
+  background-size: cover;
+  object-fit: fill;
+}
+
+.card{
+  min-width: 600px;
+  width: 75vw;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+.img{
+  object-fit: scale-down;
+  max-height: 30vh;
+}

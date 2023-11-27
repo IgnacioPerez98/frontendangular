@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import {DataapiService} from "../../../services/dataapi/dataapi.service";
 import {Funcionarios} from "../../../models/Funcionarios";
+import {AuthService} from "../../../services/auth/auth.service";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-user',
@@ -8,6 +10,7 @@ import {Funcionarios} from "../../../models/Funcionarios";
   styleUrls: ['./user.component.css']
 })
 export class UserComponent {
+  user:any;
   image:string = "assets/sinimagen.jpeg"
   func = new Funcionarios(
     "",
@@ -22,15 +25,18 @@ export class UserComponent {
   );
 
   constructor(
+    private auth:AuthService,
+    private cookie:CookieService,
     private data : DataapiService
   ) {
+    this.user = auth.decodeToken(cookie.get('token'));
     this.obtenerFuncionario();
     this.obtenerImagen();
 
   }
 
   obtenerImagen(){
-    this.data.obtenerImagenBase64(this.func.ci).subscribe(
+    this.data.obtenerImagenBase64(this.user.ci).subscribe(
       ok=>{
           this.image = "data:image/png;base64," + ok;
       },

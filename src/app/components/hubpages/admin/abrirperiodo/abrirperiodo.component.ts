@@ -10,47 +10,55 @@ import {FechaPipe, TipoFecha} from "../../../../pipe/fecha/fecha.pipe";
 })
 export class AbrirperiodoComponent{
 
-  fechainicio:Date;
-  fechafin:Date;
+  fechainicio:string;
+  fechafin:string;
 
   max = '2050-01-01'
-  min = new Date().toISOString().split('T')[0];
+  min = this.newDateToString();
 
   constructor(
     private apiService:DataapiService,
   ) {
-    this.clear();
 
   }
 
-  clear(){
-    this.fechainicio = new Date();
-    this.fechafin = new Date();
+  newDateToString(){
+    let newDate = new Date();
+    let mes = newDate.getMonth()+1;
+    return `${newDate.getFullYear()}-${mes.toString().padStart(2,"0")}-${newDate.getDate().toString().padStart(2,"0")}`;
+  }
+  dateBuild(fecha:string){
+    let m = fecha.split("-");
+    let year = parseInt(m[0]);
+    let month = parseInt(m[1]);
+    let day = parseInt(m[2]);
+    return new Date(year,month,day);
   }
 
   enviar(){
       if(this.validarFechas()){
-        let i = new Date(this.fechainicio.toISOString().split('T')[0]);
-        let f = new Date(this.fechafin.toISOString().split('T')[0]);
+        let i = this.dateBuild(this.fechainicio);
+        let f = this.dateBuild(this.fechafin)
         const periodo = new PeriodoEspecial(
           f.getFullYear(),
           f.getMonth()>5?2:1,
           i,
           f
         );
-        /*
         this.apiService.abrirPeriodoEspecial(periodo)?.subscribe(
-          ok => {
-            alert(ok);
-            this.clear();
+          (ok:any)   => {
+            alert(ok.message);
+            this.fechainicio = this.newDateToString();
+            this.fechafin = this.newDateToString();
           },
           error => {
             console.log(error);
             alert('No se pudo abrir el periodo')
           }
 
-        )*/
+        )
         let pipe = new FechaPipe();
+        console.log(new Date())
         console.log("Inicio", i);
         console.log("Fin", f);
         console.log("Pipe Inicio", pipe.transform(i, TipoFecha.FechaYHora));
@@ -69,7 +77,7 @@ export class AbrirperiodoComponent{
 
   isDisabledDate(date: string): boolean {
     const currentDate = new Date(date);
-    const minDateTime = new Date();
+    const minDateTime = new Date(this.min);
     const maxDateTime = new Date(2050,12,31);
     return currentDate < minDateTime || currentDate > maxDateTime;
   }

@@ -51,8 +51,8 @@ export class AgendaComponent implements OnInit{
         ok=>{
           alert(ok);
         },
-        error => {
-          alert(error)
+        (error:any)=> {
+          alert(error.message)
         }
       )
   }
@@ -61,11 +61,13 @@ export class AgendaComponent implements OnInit{
       (periodos)=>{
 
         periodos.forEach( p =>{
+          let init:string = p.fch_Inicio.toString();
+          let  fin :string = p.fch_Fin.toString();
           let period = new PeriodosDisponibles(
             p.anio,
             p.semestre,
-            new Date(p.fch_Inicio),
-            new Date(p.fch_Fin),
+            this.dateBuild(init),
+            this.dateBuild(fin),
             p.isOpen
           )
           this.periodos.push( period);
@@ -76,6 +78,23 @@ export class AgendaComponent implements OnInit{
         console.error(error)
       }
     )
+  }
+  newDateToString(){
+    let newDate = new Date();
+    let mes = newDate.getMonth()+1;
+    return `${newDate.getFullYear()}-${mes.toString().padStart(2,"0")}-${newDate.getDate().toString().padStart(2,"0")}`;
+  }
+
+  dBuild(fecha:Date){
+    let f :string = fecha.toString();
+    return this.dateBuild(f.split('T')[0])
+  }
+  dateBuild(fecha:string){
+    let m = fecha.split("-");
+    let year = parseInt(m[0]);
+    let month = parseInt(m[1])-1;
+    let day = parseInt(m[2]);
+    return new Date(year,month,day);
   }
   getFechita(fecha:Date){
     let pipe = new FechaPipe();
@@ -93,12 +112,6 @@ export class AgendaComponent implements OnInit{
       f1.getMonth() === fecha2.getMonth() &&
       f1.getDate() === fecha2.getDate()
     );
-  }
-  isDisabledDate(date: string): boolean {
-    const currentDate = new Date(date);
-    const minDateTime = new Date(this.periodo.fch_Inicio);
-    const maxDateTime = new Date(this.periodo.fch_Fin);
-    return currentDate < minDateTime || currentDate > maxDateTime;
   }
   //stepper
   currentStep: number = 1;
@@ -141,7 +154,7 @@ export class AgendaComponent implements OnInit{
         )
         break;
       case 2:
-        this.turnos = this.turnos.filter(t => this.sonIguales(t.fecha_Agenda,new Date(this.selectedDate)))
+        this.turnos = this.turnos.filter(t => this.sonIguales(t.fecha_Agenda,this.dateBuild(this.selectedDate)))
     }
     if (this.currentStep < 5) {
       this.currentStep++;

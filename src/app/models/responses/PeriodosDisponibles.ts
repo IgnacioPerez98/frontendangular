@@ -19,4 +19,10 @@ export class PeriodosDisponibles{
     const pipe = new FechaPipe();
     return opt === 1? pipe.transform(this.fch_Inicio, TipoFecha.SoloFecha):pipe.transform(this.fch_Fin, TipoFecha.SoloFecha)
   }
+
+  estaAbierto(){
+    let f = new Date(this.fch_Fin)
+    let now = new Date();
+    return now <= f;
+  }
 }

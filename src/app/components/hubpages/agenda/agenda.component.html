@@ -26,7 +26,7 @@
                   <div class="form-group">
                     <label for="periodo">Periodo</label>
                     <select id="periodo" [(ngModel)]="periodo" name="periodo" required>
-                      <option *ngFor="let periodo of this.periodos" [disabled]="!periodo.isOpen" [ngValue]="periodo" >
+                      <option *ngFor="let periodo of this.periodos" [disabled]="!periodo.estaAbierto()" [ngValue]="periodo" >
                         {{ periodo.getFechaLinda(1)}}/{{periodo.getFechaLinda(2)}}
                       </option>
                     </select>
@@ -38,7 +38,9 @@
                 <!--Seleccionar Dia -->
                 <div class="stepper-content-hold">
                   <label for="selectedDate">Seleccione un día:</label>
-                  <input type="date" id="selectedDate" [(ngModel)]="selectedDate" [min]="periodo.fch_Inicio.toISOString().split('T')[0]" [max]="periodo.fch_Fin.toISOString().split('T')[0]" [disabled]="isDisabledDate(selectedDate)">
+                  <input type="date" id="selectedDate"
+                         [(ngModel)]="selectedDate"
+                         [min]="periodo.fch_Inicio.toISOString().split('T')[0]" [max]="periodo.fch_Fin.toISOString().split('T')[0]" >
                 </div>
               </ng-container>
 
@@ -57,6 +59,7 @@
                 <div>
                   <h5>Numero : {{turno.numero}}</h5>
                   <h5>Cedula : {{getCI()}}</h5>
+                  <h5>Periodo : {{getFechita(periodo.fch_Inicio)}}</h5>
                   <h5>Fecha : {{getFechita(turno.fecha_Agenda)}}</h5>
                   <h5>Hora : {{getHora(turno.fecha_Agenda)}}</h5>
                 </div>
