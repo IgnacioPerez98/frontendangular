@@ -9,6 +9,7 @@ import {Agenda} from "../../../models/responses/Agenda";
 import {ReservaHora} from "../../../models/ReservaHora";
 import {AuthService} from "../../../services/auth/auth.service";
 import {FechaPipe, TipoFecha} from "../../../pipe/fecha/fecha.pipe";
+import {Error} from "../../../models/responses/Error";
 
 @Component({
   selector: 'app-agenda',
@@ -20,6 +21,7 @@ export class AgendaComponent implements OnInit{
   periodos: PeriodosDisponibles[] = [];
   periodo : PeriodoEspecial;
   selectedDate:string;
+  turnosback: Agenda[] = [];
   turnos: Agenda[] = [];
   turno:Agenda;
 
@@ -52,9 +54,11 @@ export class AgendaComponent implements OnInit{
           alert(ok);
         },
         (error:any)=> {
-          alert(error.message)
+          const e:any = JSON.parse(error.error);
+          alert(e.mensaje);
         }
       )
+      this.currentStep = 1;
   }
   obtenerPeriodos(){
     this.apiService.getPeriodosDisponibles().subscribe(
@@ -74,7 +78,6 @@ export class AgendaComponent implements OnInit{
         })
       },
       (error)=>{
-        this.nav.navigate(['/error'])
         console.error(error)
       }
     )
@@ -145,6 +148,7 @@ export class AgendaComponent implements OnInit{
         this.apiService.getFechasDisponibles(p.fch_Inicio,p.fch_Fin).subscribe(
           (ok)=> {
             ok.forEach( ag=>{
+              this.turnosback.push(ag)
               this.turnos.push(ag)
             })//ok
           },
@@ -154,7 +158,7 @@ export class AgendaComponent implements OnInit{
         )
         break;
       case 2:
-        this.turnos = this.turnos.filter(t => this.sonIguales(t.fecha_Agenda,this.dateBuild(this.selectedDate)))
+        this.turnos = this.turnosback.filter(t => this.sonIguales(t.fecha_Agenda,this.dateBuild(this.selectedDate)))
     }
     if (this.currentStep < 5) {
       this.currentStep++;
