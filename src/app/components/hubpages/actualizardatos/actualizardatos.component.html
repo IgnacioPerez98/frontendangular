@@ -1,1 +1,66 @@
-<p>actualizardatos works!</p>
+<div class="fondo">
+  <div *ngIf="TieneCarnet;else sinCarnet" class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="{{imagen}}" class="int-height img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-8">
+        <div class="card-header">
+          <h5 class="card-title">Funcionario: {{user.nombre}}</h5>
+        </div>
+        <div class="card-body int-height ">
+
+          <div class="mb-3 row">
+            <label for="direccion" class="col-sm-2 col-form-label">Direccion:</label>
+            <div class="col-sm-10">
+              <input [(ngModel)]="direccion" type="text" class="form-control" id="direccion">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="mail" class="col-sm-2 col-form-label">E-Mail:</label>
+            <div class="col-sm-10">
+              <input [(ngModel)]="email" type="email" class="form-control" id="mail">
+            </div>
+          </div>
+          <div class="mb-3 row">
+            <label for="phone" class="col-sm-2 col-form-label">Telefono:</label>
+            <div class="col-sm-10">
+              <input [(ngModel)]="telefono" type="tel" class="form-control" id="phone">
+            </div>
+          </div>
+
+          <div class="mb-3 row">
+            <label class="col-sm-2 col-form-label">Contraseña:</label>
+            <div class="col-sm-10">
+              <div class="input-group mb-3">
+                <input  [(ngModel)]="contrasena" [type]="typeInput" class="form-control" >
+                <span class="input-group-text" (click)="toogleIcon()">
+                  <span class="material-symbols-outlined">
+                  {{ico}}
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" (click)="impactarCambios()">
+            Actualizar Datos
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #sinCarnet>
+    <div class="card">
+      <h3>No cuentas con un carnet de salud, o el mismo no esta vigente.</h3>
+
+      <button class="btn btn-primary" (click)="errorNavigation(2)">
+        Cargar Carnet
+      </button>
+      <button class="btn btn-primary" (click)="errorNavigation(1)">
+        Reservar Hora
+      </button>
+    </div>
+  </ng-template>
+</div>

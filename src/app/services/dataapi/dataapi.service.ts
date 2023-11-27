@@ -53,7 +53,7 @@ export class DataapiService {
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    return this.http.get<CarnetInfo>(this.API_ENDPOINT+ending, {headers:header});
+    return this.http.get<CarnetInfo>(this.API_ENDPOINT+ending, {headers:header,responseType:'json'});
   }
 
   public obtenerImagenBase64(ci:string){
@@ -63,7 +63,7 @@ export class DataapiService {
       'Content-Type': 'application/json',
       'Authorization' : `Bearer ${this.cookie.get('token')}`
     }
-    return this.http.get<any>(this.API_ENDPOINT+ending, {headers:header});
+    return this.http.get(this.API_ENDPOINT+ending, {headers:header, responseType:'text'});
   }
 
   //***********************************************************************************
@@ -90,7 +90,7 @@ export class DataapiService {
     return this.http.post<any>(this.API_ENDPOINT+ending, body,{headers:header});
   }
   public  actualizarDatosFuncionarioActual(func:UpdateFuncionario){
-    const ending= 'funcionarios/funcionario';
+    const ending= 'funcionarios/funcionarioactual';
     const header = {
       'accept': '*/*',
       'Content-Type': 'application/json',
@@ -102,7 +102,7 @@ export class DataapiService {
       "email": `${func.email}`,
       "password": `${func.password}`
     }
-    return this.http.patch(this.API_ENDPOINT+ending,body,{headers:header});
+    return this.http.patch(this.API_ENDPOINT+ending,body,{headers:header, responseType:'text'});
   }
 
 

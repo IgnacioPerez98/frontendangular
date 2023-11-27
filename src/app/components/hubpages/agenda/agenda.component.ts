@@ -8,8 +8,7 @@ import {PeriodoEspecial} from "../../../models/PeriodoEspecial";
 import {Agenda} from "../../../models/responses/Agenda";
 import {ReservaHora} from "../../../models/ReservaHora";
 import {AuthService} from "../../../services/auth/auth.service";
-import {Error} from "../../../models/responses/Error";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import {FechaPipe, TipoFecha} from "../../../pipe/fecha/fecha.pipe";
 
 @Component({
   selector: 'app-agenda',
@@ -78,7 +77,10 @@ export class AgendaComponent implements OnInit{
       }
     )
   }
-
+  getFechita(fecha:Date){
+    let pipe = new FechaPipe();
+    return pipe.transform(new Date(fecha),TipoFecha.SoloFecha);
+  }
   getHora(fecha:Date){
     const f1 = new Date(fecha);
     return `${f1.getHours()}:${f1.getMinutes().toString().padStart(2,"0")}`

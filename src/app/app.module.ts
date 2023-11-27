@@ -19,6 +19,8 @@ import { AbrirperiodoComponent } from './components/hubpages/admin/abrirperiodo/
 import { ObtenerpendientesComponent } from './components/hubpages/admin/obtenerpendientes/obtenerpendientes.component';
 import { ErrorpageComponent } from './components/hubpages/errorpage/errorpage.component';
 import {adminGuard} from "./services/adminguard/admin.guard";
+import {PeriodoEspecial} from "./models/PeriodoEspecial";
+import { UserComponent } from './components/hubpages/user/user.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'/login', pathMatch: 'full'},
@@ -31,8 +33,9 @@ const routes: Routes = [
       {path: 'agendarme', component:AgendaComponent, canActivate: [authGuard]},
       {path: 'carnetsalud', component:CarnetsaludComponent, canActivate: [authGuard]},
       {path: 'datospersonales', component:ActualizardatosComponent, canActivate: [authGuard]},
-      {path: 'admin/periodos', component:ActualizardatosComponent, canActivate: [authGuard,adminGuard]},
-      {path: 'admin/listardesactualizados', component:ActualizardatosComponent, canActivate: [authGuard, adminGuard]},
+      {path: 'user', component:UserComponent, canActivate: [authGuard]},
+      {path: 'periodos', component:AbrirperiodoComponent, canActivate: [authGuard,adminGuard]},
+      {path: 'listardesactualizados', component:ObtenerpendientesComponent, canActivate: [authGuard, adminGuard]}
 
     ]
   },
@@ -53,7 +56,8 @@ const routes: Routes = [
     ActualizardatosComponent,
     AbrirperiodoComponent,
     ObtenerpendientesComponent,
-    ErrorpageComponent
+    ErrorpageComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
